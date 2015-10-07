@@ -7,35 +7,74 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Xna.Framework.Audio;
+using NAudio.Wave;
 
 
 namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
+        WaveIn waveIn;
+        WaveOut waveOut;
+        BufferedWaveProvider bufferedWaveProvider;
+        bool recording, playing;
+
         public Form1()
         {
             InitializeComponent();
+            button2.Visible = false;
+            waveIn = new WaveIn();
+            WaveFormat waveFormat = new WaveFormat(44100, 1);
+            waveIn.WaveFormat = waveFormat;
+            waveIn.DataAvailable += new EventHandler<WaveInEventArgs>(dataAvailable);
+
+            bufferedWaveProvider = new BufferedWaveProvider(waveFormat);
+
+            waveOut = new WaveOut();
+            waveOut.Init(bufferedWaveProvider);
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Microphone mic = Microphone.Default;
-            if (mic == null)
+            if (!recording)
             {
-                throw new Exception("no mic attached");
+                button1.Text = "Stop Recording";
+                waveIn.StartRecording();
+                recording = true;
             }
-
-            byte[] buffer = new byte[Microphone.Default.GetSampleSizeInBytes(TimeSpan.FromSeconds(3.0))];
-
-            int bytesRead = 0;
-
-            while (true)
+            else
             {
-                Microphone.Default.Start();
+                button2.Visible = true;
+                button1.Text = "Record";
+                waveIn.StopRecording();
+                recording = false;
+            }
+        }
 
-                bytesRead += Microphone.Default.GetData(buffer, bytesRead, (buffer.Length - bytesRead));
+        private void dataAvailable(object sender, WaveInEventArgs e)
+        {
+            bufferedWaveProvider.AddSamples(e.Buffer, 0, e.BytesRecorded);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (!playing)
+            {
+                playing = true;
+                button2.Text = "Stop";
+                waveOut.Play();
+            }
+            else
+            {
+                playing = false;
+                button2.Text = "Play";
+                waveOut.Stop();
             }
         }
     }
