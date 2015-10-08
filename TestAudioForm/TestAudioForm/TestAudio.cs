@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NAudio.Wave;
+using VoiceRecorder.Audio;
+using System.Windows.Forms.DataVisualization.Charting;
 
 
 namespace TestAudioForm
@@ -18,27 +20,69 @@ namespace TestAudioForm
         private BufferedWaveProvider bufferedWaveProvider;
         private short[] waveArray;
         private int arrayPointer;
+        private int arraySize = 100;
+        private SampleAggregator sampleAggregator;
 
 
         public TestAudio()
         {
             InitializeComponent();
 
-            waveArray = new short[10000000];
-            arrayPointer = 0;
+            var series1 = new Series
+            {
+                Name = "Series1",
+                Color = Color.Green,
+                IsVisibleInLegend = false,
+                IsXValueIndexed = true,
+                ChartType = SeriesChartType.Line
+            };
+
+            waveChart.ChartAreas[0].AxisX.Maximum = 100;
+            waveChart.ChartAreas[0].AxisX.Minimum = 0;
+            waveChart.ChartAreas[0].AxisY.Maximum = 100;
+            waveChart.ChartAreas[0].AxisY.Minimum = -100;
+
+            //waveChart.ChartAreas[0].AxisY.Enabled = AxisEnabled.False;
+            //waveChart.ChartAreas[0].AxisX.Enabled = AxisEnabled.False;
+
+            
+            
+            sampleAggregator = new SampleAggregator();
         }
+        
 
 
         public void NewDataAvailable(object sender, WaveInEventArgs e)
         {
             //Shit hier als er nieuwe data is!!!
-            for (int i = 0; i < e.BytesRecorded; i += 2)
-            {
+            //for (int i = 0; i < e.BytesRecorded; i += 2)
+            //{
 
-                short sample = (short)((e.Buffer[i + 1] << 8) | e.Buffer[i + 0]);
-      
-                waveArray[arrayPointer] = sample;
-                arrayPointer = (arrayPointer + 1) % waveArray.Length;
+            //    short sample = (short)((e.Buffer[i + 1] << 8) | e.Buffer[i + 0]);
+
+            //    waveArray[arrayPointer] = sample;
+            //    arrayPointer = (arrayPointer + 1) % waveArray.Length;
+            //}
+
+            byte[] buffer = e.Buffer;
+            int bytesRecorded = e.BytesRecorded;
+
+            for (int index = 0; index < e.BytesRecorded; index += 2)
+            {
+                short sample = (short)((buffer[index + 1] << 8) |
+                                        buffer[index + 0]);
+                float sample32 = sample / 32768f;
+                sampleAggregator.Add(sample32);
+
+                arrayPointer++;
+                if (arrayPointer >= 99)
+                {
+                    arrayPointer = 0;
+                    waveChart.Series[0].Points.Clear();
+                }
+
+                waveChart.Series[0].Points.AddXY(arrayPointer - 1, sample32 * 100);
+                
             }
 
         }
@@ -60,9 +104,13 @@ namespace TestAudioForm
             }
         }
 
+        private void FFT()
+        {
+
+        }
+
         private void stopRecordingButton_Click(object sender, EventArgs e)
         {
-            int x = ZeroCrossings();
             waveIn.StopRecording();
             waveIn.Dispose();
             waveIn = null;
