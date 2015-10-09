@@ -49,6 +49,7 @@
             // 
             // stopRecordingButton
             // 
+            this.stopRecordingButton.Enabled = false;
             this.stopRecordingButton.Location = new System.Drawing.Point(13, 41);
             this.stopRecordingButton.Name = "stopRecordingButton";
             this.stopRecordingButton.Size = new System.Drawing.Size(721, 23);
@@ -67,7 +68,6 @@
             this.waveChart.Location = new System.Drawing.Point(13, 71);
             this.waveChart.Name = "waveChart";
             series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.waveChart.Series.Add(series1);
@@ -83,18 +83,19 @@
             this.Controls.Add(this.waveChart);
             this.Controls.Add(this.stopRecordingButton);
             this.Controls.Add(this.startRecordingButton);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "TestAudio";
-            this.Text = "Form1";
+            this.Text = "Sound Analyser";
             ((System.ComponentModel.ISupportInitialize)(this.waveChart)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button startRecordingButton;
-        private System.Windows.Forms.Button stopRecordingButton;
         public System.Windows.Forms.DataVisualization.Charting.Chart waveChart;
+        public System.Windows.Forms.Button startRecordingButton;
+        public System.Windows.Forms.Button stopRecordingButton;
     }
 }
 
