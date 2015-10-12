@@ -26,6 +26,8 @@ namespace TestAudioForm
         private int bufferPointer = 0;
         private int bufferSize = 8192; //Must be power of 2!
         private int sampleRate = 44100;
+        private List<double> maxIntensities = new List<double>();
+        private List<int> maxIntensityIndices = new List<int>();
         //private SampleAggregator sampleAggregator;
         //private AutoCorrelator pitchDetector;
         //private FftPitchDetector pDetector;
@@ -51,22 +53,23 @@ namespace TestAudioForm
             waveChart.ChartAreas[0].AxisX.Minimum = 0;
             waveChart.ChartAreas[0].AxisY.Maximum = 0.05f;
             waveChart.ChartAreas[0].AxisY.Minimum = 0;
-
             waveChart.ChartAreas[0].AxisY.Enabled = AxisEnabled.False;
-            //waveChart.ChartAreas[0].AxisX.Enabled = AxisEnabled.False;
-
+            
             waveBuffer = new float[bufferSize];
             
             //sampleAggregator = new SampleAggregator();
 
-            fftBuffer = new Complex[bufferSize];
-            
+            fftBuffer = new Complex[bufferSize];            
         }
 
         public void AddToBuffer(float f)
         {
             waveBuffer[bufferPointer] = f;
             fftBuffer[bufferPointer].X = (float)(f * FastFourierTransform.HammingWindow(bufferPointer, bufferSize));
+
+            int xOffset = sampleRate / (bufferSize / 2);
+            double maxIntensity = 0;
+            int maxIntensityIndex = 0;
 
             bufferPointer = (bufferPointer + 1) % bufferSize;
 
@@ -81,8 +84,17 @@ namespace TestAudioForm
                 {
                     for (int i = 0; i < fftBuffer.Length / 2; i++)
                     {
-                        waveChart.Series[0].Points.AddXY(i * (sampleRate / (bufferSize / 2)), Math.Sqrt((Math.Pow(fftBuffer[i].X, 2) + Math.Pow(fftBuffer[i].Y, 2))));
+                        double intensity = Math.Sqrt((Math.Pow(fftBuffer[i].X, 2) + Math.Pow(fftBuffer[i].Y, 2)));
+                        int index = i * xOffset;
+
+                        maxIntensity = Math.Max(maxIntensity, intensity);
+                        maxIntensityIndex = (maxIntensity == intensity) ? index : maxIntensityIndex;
+ 
+                        waveChart.Series[0].Points.AddXY(i * xOffset, intensity);
                     }
+
+                    maxIntensities.Add(maxIntensity);
+                    maxIntensityIndices.Add(maxIntensityIndex);
                 }
                 catch { }
                 //waveChart.Series[0].Points.Add(pitch);
@@ -90,8 +102,6 @@ namespace TestAudioForm
             }
 
         }
-
-
 
         public void NewDataAvailable(object sender, WaveInEventArgs e)
         {
@@ -113,21 +123,7 @@ namespace TestAudioForm
                 short sample = (short)((buffer[index + 1] << 8) |
                                         buffer[index + 0]);
                 float sample32 = sample / 32768f;
-                //sampleAggregator.Add(sample32);
-                
                 AddToBuffer(sample32);
-
-
-                
-                //arrayPointer++;
-                //if (arrayPointer >= 99)
-                //{
-                //    arrayPointer = 0;
-                //    waveChart.Series[0].Points.Clear();
-                //}
-
-                //waveChart.Series[0].Points.AddXY(arrayPointer - 1, sample32 * 100);
-                
             }
 
         }
@@ -155,12 +151,6 @@ namespace TestAudioForm
 
             stopRecordingButton.Enabled = true;
             startRecordingButton.Enabled = false;
-
-        }
-
-        private void FFT()
-        {
-
         }
 
         private void stopRecordingButton_Click(object sender, EventArgs e)
@@ -171,12 +161,31 @@ namespace TestAudioForm
                 waveIn.Dispose();
                 waveIn = null;
                 waveChart.Series[0].Points.Clear();
+                CalculatePitch();
             }
             catch { }
 
+            
             stopRecordingButton.Enabled = false;
             startRecordingButton.Enabled = true;
         }
+
+        private void CalculatePitch()
+        {
+            double mxIntensity = 0;
+            double mxIndex = 0;
+            for (int i = 0; i < maxIntensities.Count; i++)
+            {
+                //if (humanvoiceMin < maxIntensityIndices[i] > humanvoiceMax)
+                //{
+
+                mxIntensity = Math.Max(mxIntensity, maxIntensities[i]);
+                mxIndex = (mxIntensity == maxIntensities[i]) ? maxIntensityIndices[i] : mxIndex;
+
+                //}
+            }
+        }
+
 
         //public int ZeroCrossings()
         //{
