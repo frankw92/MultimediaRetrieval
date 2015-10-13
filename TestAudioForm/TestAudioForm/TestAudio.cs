@@ -38,6 +38,8 @@ namespace TestAudioForm
         {
             InitializeComponent();
 
+            DatabaseManager databaseManager = new DatabaseManager();
+
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
             var series1 = new Series
