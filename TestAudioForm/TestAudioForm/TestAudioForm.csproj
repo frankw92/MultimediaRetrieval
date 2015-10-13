@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseManager.cs" />
     <Compile Include="Emotion.cs" />
     <Compile Include="FFTCalculator.cs" />
     <Compile Include="FindEmotion.cs" />
