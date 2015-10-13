@@ -55,7 +55,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Emotion.cs" />
     <Compile Include="FFTCalculator.cs" />
+    <Compile Include="FindEmotion.cs" />
     <Compile Include="TestAudio.cs">
       <SubType>Form</SubType>
     </Compile>
