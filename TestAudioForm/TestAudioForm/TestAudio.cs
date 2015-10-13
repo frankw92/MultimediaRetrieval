@@ -17,6 +17,7 @@ namespace TestAudioForm
 {
     public partial class TestAudio : Form
     {
+
         private WaveIn waveIn;
         private int bufferSize = GlobalVariables.BlockSize; //Must be power of 2!
         private int sampleRate = GlobalVariables.SampleRate;
@@ -48,7 +49,6 @@ namespace TestAudioForm
 
         public void NewDataAvailable(object sender, WaveInEventArgs e)
         {
-
             byte[] buffer = e.Buffer;
             int bytesRecorded = e.BytesRecorded;
 
@@ -118,8 +118,10 @@ namespace TestAudioForm
                 waveIn.StopRecording();
                 waveIn.Dispose();
                 waveIn = null;
+                waveChart.Dispose();
             }
-            catch { }
+            catch 
+            { }
         }
     }
 }

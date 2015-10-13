@@ -87,6 +87,7 @@
             this.MinimizeBox = false;
             this.Name = "TestAudio";
             this.Text = "Sound Analyser";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TestAudio_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.waveChart)).EndInit();
             this.ResumeLayout(false);
 
