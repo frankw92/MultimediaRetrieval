@@ -23,12 +23,14 @@ namespace TestAudioForm
         private int sampleRate = GlobalVariables.SampleRate;
         private Window activeWindow;
         private List<Window> windows;
+        private Database db;
 
         public TestAudio()
         {
             InitializeComponent();
 
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.db = new Database();
 
             var series1 = new Series
             {
@@ -122,6 +124,11 @@ namespace TestAudioForm
             }
             catch 
             { }
+        }
+
+        private void dbButton_Click(object sender, EventArgs e)
+        {
+            db.CreatDBs();
         }
     }
 }
