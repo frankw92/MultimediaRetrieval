@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.IO;
+using WMPLib;
 
 namespace TestAudioForm
 {
@@ -17,6 +18,18 @@ namespace TestAudioForm
         public Database()
         {
             dbConnection = new SQLiteConnection("Data Source=db.sqlite;Version=3;");            
+        }
+
+        public void ChangeEmotion(Emotion curEmo, Emotion goalEmo)
+        {
+
+        }
+
+        public void PlaySong(int songid)
+        {
+            WindowsMediaPlayer wmp = new WindowsMediaPlayer();
+            wmp.URL = "../../../Music database/clips_45seconds/" + songid.ToString() + ".mp3";
+            wmp.controls.play();
         }
 
         public void CreatDBs()
