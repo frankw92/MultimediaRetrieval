@@ -113,12 +113,13 @@ namespace TestAudioForm
 
                 intensities = new double[blockSize / 2];
 
-                GlobalVariables.WaveChart.Series[0].Points.Clear();
+                //GlobalVariables.WaveChart.Series[0].Points.Clear();
 
                 for (int i = 0; i < blockSize / 2; i++)
                 {
                     intensities[i] = Math.Sqrt((Math.Pow(fftArray[i].X, 2) + Math.Pow(fftArray[i].Y, 2)));
-                    GlobalVariables.WaveChart.Series[0].Points.AddXY(i * GlobalVariables.FrequencyOffset, intensities[i]);
+
+                    //GlobalVariables.WaveChart.Series[0].Points.AddXY(i * GlobalVariables.FrequencyOffset, intensities[i]);
                 }
 
                 Measure();

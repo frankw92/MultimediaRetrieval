@@ -57,7 +57,7 @@ namespace TestAudioForm
         private Measurements[] GetFileMeasurements()
         {
             int numberOfWindows = windows.Count;
-            Measurements[] fileMeasurements = new Measurements[numberOfWindows];
+            Measurements[] fileMeasurements = new Measurements[numberOfWindows - 1];
 
             for (int i = 0; i < numberOfWindows - 1; i++) //-1 because we always throw away the last window
             {
