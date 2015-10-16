@@ -10,13 +10,16 @@ namespace TestAudioForm
     {
         public readonly char Gender;
         public readonly char Emotion;
-        // pitch
-        // energy
+        public readonly double AveragePitch, PitchSTD, EnergySTD;
+
         
-        public WindowEmotion(char gender, char emotion)
+        public WindowEmotion(char gender, char emotion, double averagePitch, double pitchSTD, double energySTD)
         {
             Gender = gender;
             Emotion = emotion;
+            AveragePitch = averagePitch;
+            PitchSTD = pitchSTD;
+            EnergySTD = energySTD;
         }
     }
 }
