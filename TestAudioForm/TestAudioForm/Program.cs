@@ -17,6 +17,7 @@ namespace TestAudioForm
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            // DatabaseManager dm = new DatabaseManager(); // just for testing purpose
             Application.Run(new TestAudio());
         }
     }

@@ -37,7 +37,7 @@ namespace TestAudioForm
                     char emotion = GetEmotion(gEmotion);
 
                     // get values pitch, energy per window
-
+                    
                     // write to file, for each window
                     // for each window
                     sw.WriteLine(gender + " " + emotion + " "); // + values
