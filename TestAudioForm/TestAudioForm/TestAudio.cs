@@ -17,7 +17,6 @@ namespace TestAudioForm
 {
     public partial class TestAudio : Form
     {
-
         private WaveIn waveIn;
         private int bufferSize = GlobalVariables.BlockSize; //Must be power of 2!
         private int sampleRate = GlobalVariables.SampleRate;
@@ -49,12 +48,14 @@ namespace TestAudioForm
             waveChart.ChartAreas[0].AxisY.Enabled = AxisEnabled.False;
         }
 
-        public void NewDataAvailable(object sender, WaveInEventArgs e)
+        private void NewDataAvailable(object sender, WaveInEventArgs e)
         {
-            byte[] buffer = e.Buffer;
-            int bytesRecorded = e.BytesRecorded;
-
-            for (int index = 0; index < e.BytesRecorded; index += 2)
+            ProcessNewData(e.Buffer, e.BytesRecorded);
+        }
+        
+        public void ProcessNewData(byte[] buffer, int bytesRecorded)
+        {
+            for (int index = 0; index < bytesRecorded; index += 2)
             {
                 activeWindow.AddSample(buffer, index);
                 if (activeWindow.Done)
