@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.IO;
-using WMPLib;
+using NAudio;
+using NAudio.Wave;
 
 namespace TestAudioForm
 {
@@ -14,6 +15,7 @@ namespace TestAudioForm
         SQLiteConnection dbConnection;
         SQLiteCommand sql;
         StreamReader reader;
+        Mp3FileReader mp3Reader;
 
         public Database()
         {
@@ -27,12 +29,14 @@ namespace TestAudioForm
 
         public void PlaySong(int songid)
         {
-            WindowsMediaPlayer wmp = new WindowsMediaPlayer();
-            wmp.URL = "../../../Music database/clips_45seconds/" + songid.ToString() + ".mp3";
-            wmp.controls.play();
+            string mp3Url = "../../../Music database/clips_45seconds/" + songid.ToString() + ".mp3";
+            mp3Reader = new Mp3FileReader(mp3Url);
+            var waveOut = new WaveOut(); 
+            waveOut.Init(mp3Reader);
+            waveOut.Play();
         }
 
-        public void CreatDBs()
+        public void CreateDBs()
         {
             SQLiteConnection.CreateFile("db.sqlite");
             CreateDB("../../../Music database/Annotations/static_annotations.csv", "static_annotations");

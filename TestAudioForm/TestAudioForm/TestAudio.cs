@@ -128,7 +128,7 @@ namespace TestAudioForm
 
         private void dbButton_Click(object sender, EventArgs e)
         {
-            db.CreatDBs();
+            db.CreateDBs();
         }
     }
 }
