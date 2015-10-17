@@ -22,24 +22,24 @@ namespace TestAudioForm
             dbConnection = new SQLiteConnection("Data Source=db.sqlite;Version=3;");
         }
 
-        public void ChangeEmotion(Emotion curEmo, Emotion goalEmo)
+        public void ChangeEmotion(WindowEmotion curEmo, WindowEmotion goalEmo)
         {
             float curVal, curAr, goalVal, goalAr;
-            switch (curEmo.getName())
+            switch (curEmo.Emotion)
             {
-                case "Happiness":
+                case 'H':
                     curVal = 6.55f;
                     curAr = 6.6f;                    
                     break;
-                case "Anger":
+                case 'A':
                     curVal = 3.3f;
                     curAr = 6.6f;
                     break;
-                case "Sadness":
+                case 'S':
                     curVal = 3.3f;
                     curAr = 3.2f;
                     break;
-                case "Fear":
+                case 'F':
                     curVal = 6.55f;
                     curAr = 3.2f;
                     break;
@@ -48,21 +48,21 @@ namespace TestAudioForm
                     curAr = 4.8f;
                     break;
             }
-            switch (goalEmo.getName())
+            switch (goalEmo.Emotion)
             {
-                case "Happiness":
+                case 'H':
                     goalAr = 8.4f;
                     goalVal = 8.1f;
                     break;
-                case "Anger":
+                case 'A':
                     goalAr = 8.4f;
                     goalVal = 1.6f;
                     break;
-                case "Sadness":
+                case 'S':
                     goalAr = 1.6f;
                     goalVal = 1.6f;
                     break;
-                case "Fear":
+                case 'F':
                     goalAr = 1.6f;
                     goalVal = 8.1f;
                     break;
