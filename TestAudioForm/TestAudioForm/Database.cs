@@ -19,12 +19,115 @@ namespace TestAudioForm
 
         public Database()
         {
-            dbConnection = new SQLiteConnection("Data Source=db.sqlite;Version=3;");            
+            dbConnection = new SQLiteConnection("Data Source=db.sqlite;Version=3;");
         }
 
         public void ChangeEmotion(Emotion curEmo, Emotion goalEmo)
         {
-
+            float curVal, curAr, goalVal, goalAr;
+            switch (curEmo.getName())
+            {
+                case "Happiness":
+                    curVal = 6.55f;
+                    curAr = 6.6f;                    
+                    break;
+                case "Anger":
+                    curVal = 3.3f;
+                    curAr = 6.6f;
+                    break;
+                case "Sadness":
+                    curVal = 3.3f;
+                    curAr = 3.2f;
+                    break;
+                case "Fear":
+                    curVal = 6.55f;
+                    curAr = 3.2f;
+                    break;
+                default:
+                    curVal = 5.0f;
+                    curAr = 4.8f;
+                    break;
+            }
+            switch (goalEmo.getName())
+            {
+                case "Happiness":
+                    goalAr = 8.4f;
+                    goalVal = 8.1f;
+                    break;
+                case "Anger":
+                    goalAr = 8.4f;
+                    goalVal = 1.6f;
+                    break;
+                case "Sadness":
+                    goalAr = 1.6f;
+                    goalVal = 1.6f;
+                    break;
+                case "Fear":
+                    goalAr = 1.6f;
+                    goalVal = 8.1f;
+                    break;
+                default:
+                    goalAr = 4.8f;
+                    goalVal = 5.0f;
+                    break;
+            }
+            string query = "SELECT song_id FROM static_annotations WHERE (mean_arousal BETWEEN ";
+            if (curAr > goalAr)
+            {
+                if (curVal > goalVal)
+                {
+                    query += goalAr.ToString().Replace(',', '.') + " AND " + curAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + curVal.ToString().Replace(',', '.') + ");";
+                }
+                else if (curVal < goalVal)
+                {
+                    query += goalAr.ToString().Replace(',', '.') + " AND " + curAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + curVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ");";
+                }
+                else
+                {
+                    query += goalAr.ToString().Replace(',', '.') + " AND " + curAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (curVal + 1.0f).ToString().Replace(',', '.') + ");";
+                }
+            }
+            else if (curAr < goalAr)
+            {
+                if (curVal > goalVal)
+                {
+                    query += curAr.ToString().Replace(',', '.') + " AND " + goalAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + curVal.ToString().Replace(',', '.') + ");";
+                }
+                else if (curVal < goalVal)
+                {
+                    query += curAr.ToString().Replace(',', '.') + " AND " + goalAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + curVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ");";
+                }
+                else
+                {
+                    query += goalAr.ToString().Replace(',', '.') + " AND " + curAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (curVal + 1.0f).ToString().Replace(',', '.') + ");";
+                }
+            }
+            else
+            {
+                if (curVal > goalVal)
+                {
+                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (curAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + curVal.ToString().Replace(',', '.') + ");";
+                }
+                else if (curVal < goalVal)
+                {
+                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (curAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + curVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ");";
+                }
+                else
+                {
+                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (curAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (curVal + 1.0f).ToString().Replace(',', '.') + ");";
+                }
+            }
+            dbConnection.Open();
+            sql = new SQLiteCommand(query, dbConnection);
+            SQLiteDataReader sqlr = sql.ExecuteReader();
+            List<int> songIDs = new List<int>();
+            while(sqlr.Read())
+            {
+                songIDs.Add(sqlr.GetInt32(0));
+            }
+            dbConnection.Close();
+            Random r = new Random();
+            PlaySong(songIDs[r.Next(songIDs.Count + 1)]);
         }
 
         public void PlaySong(int songid)

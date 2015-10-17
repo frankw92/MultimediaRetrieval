@@ -131,5 +131,10 @@ namespace TestAudioForm
         {
             db.CreateDBs();
         }
+
+        private void musicButton_Click(object sender, EventArgs e)
+        {
+            db.ChangeEmotion(new Emotion("Anger", 102, 0, 0), new Emotion("Anger", 155, 0, 0));
+        }
     }
 }

@@ -35,6 +35,7 @@
             this.stopRecordingButton = new System.Windows.Forms.Button();
             this.waveChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.dbButton = new System.Windows.Forms.Button();
+            this.musicButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.waveChart)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,11 +87,22 @@
             this.dbButton.UseVisualStyleBackColor = true;
             this.dbButton.Click += new System.EventHandler(this.dbButton_Click);
             // 
+            // musicButton
+            // 
+            this.musicButton.Location = new System.Drawing.Point(149, 580);
+            this.musicButton.Name = "musicButton";
+            this.musicButton.Size = new System.Drawing.Size(152, 23);
+            this.musicButton.TabIndex = 4;
+            this.musicButton.Text = "Play Music";
+            this.musicButton.UseVisualStyleBackColor = true;
+            this.musicButton.Click += new System.EventHandler(this.musicButton_Click);
+            // 
             // TestAudio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 616);
+            this.Controls.Add(this.musicButton);
             this.Controls.Add(this.dbButton);
             this.Controls.Add(this.waveChart);
             this.Controls.Add(this.stopRecordingButton);
@@ -110,6 +122,7 @@
         public System.Windows.Forms.Button startRecordingButton;
         public System.Windows.Forms.Button stopRecordingButton;
         private System.Windows.Forms.Button dbButton;
+        private System.Windows.Forms.Button musicButton;
     }
 }
 
