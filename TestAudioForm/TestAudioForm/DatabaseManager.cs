@@ -18,6 +18,11 @@ namespace TestAudioForm
         {
             if (!File.Exists(file))
                 CreateDatabase();
+            else
+            {
+                File.Delete(file);
+                CreateDatabase();
+            }
         }
 
         void CreateDatabase()
