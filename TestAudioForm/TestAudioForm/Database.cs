@@ -24,97 +24,174 @@ namespace TestAudioForm
 
         public void ChangeEmotion(WindowEmotion curEmo, WindowEmotion goalEmo)
         {
-            float curVal, curAr, goalVal, goalAr;
-            switch (curEmo.Emotion)
-            {
-                case 'H':
-                    curVal = 6.55f;
-                    curAr = 6.6f;                    
-                    break;
-                case 'A':
-                    curVal = 3.3f;
-                    curAr = 6.6f;
-                    break;
-                case 'S':
-                    curVal = 3.3f;
-                    curAr = 3.2f;
-                    break;
-                case 'F':
-                    curVal = 6.55f;
-                    curAr = 3.2f;
-                    break;
-                default:
-                    curVal = 5.0f;
-                    curAr = 4.8f;
-                    break;
-            }
+            float startVal, startAr, goalVal, goalAr;
+            float meanVal = 5.0f, meanAr = 4.8f;
             switch (goalEmo.Emotion)
             {
                 case 'H':
                     goalAr = 8.4f;
                     goalVal = 8.1f;
+                    switch(curEmo.Emotion)
+                    {
+                        case 'H':
+                            startVal = 6.55f;
+                            startAr = 6.6f;
+                            break;
+                        case 'A':
+                            startVal = meanVal;
+                            startAr = 6.6f;
+                            break;
+                        case 'F':
+                            startVal = 6.55f;
+                            startAr = meanAr;
+                            break;
+                        default:
+                            startVal = meanVal;
+                            startAr = meanAr;
+                            break;
+                    }
                     break;
                 case 'A':
                     goalAr = 8.4f;
                     goalVal = 1.6f;
+                    switch (curEmo.Emotion)
+                    {
+                        case 'H':
+                            startVal = meanVal;
+                            startAr = 6.6f;
+                            break;
+                        case 'A':
+                            startVal = 3.3f;
+                            startAr = 6.6f;
+                            break;
+                        case 'S':
+                            startVal = 3.3f;
+                            startAr = meanAr;
+                            break;
+                        default:
+                            startVal = meanVal;
+                            startAr = meanAr;
+                            break;
+                    }
                     break;
                 case 'S':
                     goalAr = 1.6f;
                     goalVal = 1.6f;
+                    switch (curEmo.Emotion)
+                    {
+                        case 'A':
+                            startVal = 3.3f;
+                            startAr = meanAr;
+                            break;
+                        case 'S':
+                            startVal = 3.3f;
+                            startAr = 3.2f;
+                            break;
+                        case 'F':
+                            startVal = meanVal;
+                            startAr = 3.2f;
+                            break;
+                        default:
+                            startVal = meanVal;
+                            startAr = meanAr;
+                            break;
+                    }
                     break;
                 case 'F':
                     goalAr = 1.6f;
                     goalVal = 8.1f;
+                    switch (curEmo.Emotion)
+                    {
+                        case 'H':
+                            startVal = 6.55f;
+                            startAr = meanAr;
+                            break;
+                        case 'S':
+                            startVal = meanVal;
+                            startAr = 3.2f;
+                            break;
+                        case 'F':
+                            startVal = 6.55f;
+                            startAr = 3.2f;
+                            break;
+                        default:
+                            startVal = meanVal;
+                            startAr = meanAr;
+                            break;
+                    }
                     break;
                 default:
-                    goalAr = 4.8f;
-                    goalVal = 5.0f;
+                    goalAr = meanAr;
+                    goalVal = meanVal;
+                    switch (curEmo.Emotion)
+                    {
+                        case 'H':
+                            startVal = 6.55f;
+                            startAr = 6.6f;
+                            break;
+                        case 'A':
+                            startVal = 3.3f;
+                            startAr = 6.6f;
+                            break;
+                        case 'S':
+                            startVal = 3.3f;
+                            startAr = 3.2f;
+                            break;
+                        case 'F':
+                            startVal = 6.55f;
+                            startAr = 3.2f;
+                            break;
+                        default:
+                            startVal = meanVal;
+                            startAr = meanAr;
+                            break;
+                    }
                     break;
             }
             string query = "SELECT song_id FROM static_annotations WHERE (mean_arousal BETWEEN ";
-            if (curAr > goalAr)
+            if (startAr > goalAr)
             {
-                if (curVal > goalVal)
+                if (startVal > goalVal)
                 {
-                    query += goalAr.ToString().Replace(',', '.') + " AND " + curAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + curVal.ToString().Replace(',', '.') + ");";
+                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + startVal.ToString().Replace(',', '.') + ");";
                 }
-                else if (curVal < goalVal)
+                else if (startVal < goalVal)
                 {
-                    query += goalAr.ToString().Replace(',', '.') + " AND " + curAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + curVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ");";
+                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + startVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ");";
                 }
                 else
                 {
-                    query += goalAr.ToString().Replace(',', '.') + " AND " + curAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (curVal + 1.0f).ToString().Replace(',', '.') + ");";
+                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (startVal + 1.0f).ToString().Replace(',', '.') + ");";
                 }
             }
-            else if (curAr < goalAr)
+            else if (startAr < goalAr)
             {
-                if (curVal > goalVal)
+                if (startVal > goalVal)
                 {
-                    query += curAr.ToString().Replace(',', '.') + " AND " + goalAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + curVal.ToString().Replace(',', '.') + ");";
+                    query += startAr.ToString().Replace(',', '.') + " AND " + goalAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + startVal.ToString().Replace(',', '.') + ");";
                 }
-                else if (curVal < goalVal)
+                else if (startVal < goalVal)
                 {
-                    query += curAr.ToString().Replace(',', '.') + " AND " + goalAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + curVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ");";
+                    query += startAr.ToString().Replace(',', '.') + " AND " + goalAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + startVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ");";
                 }
                 else
                 {
-                    query += goalAr.ToString().Replace(',', '.') + " AND " + curAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (curVal + 1.0f).ToString().Replace(',', '.') + ");";
+                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (startVal + 1.0f).ToString().Replace(',', '.') + ");";
                 }
             }
             else
             {
-                if (curVal > goalVal)
+                if (startVal > goalVal)
                 {
-                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (curAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + curVal.ToString().Replace(',', '.') + ");";
+                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (startAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + startVal.ToString().Replace(',', '.') + ");";
                 }
-                else if (curVal < goalVal)
+                else if (startVal < goalVal)
                 {
-                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (curAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + curVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ");";
+                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (startAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + startVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ");";
                 }
                 else
                 {
-                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (curAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (curVal + 1.0f).ToString().Replace(',', '.') + ");";
+                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (startAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (startVal + 1.0f).ToString().Replace(',', '.') + ");";
                 }
             }
             dbConnection.Open();

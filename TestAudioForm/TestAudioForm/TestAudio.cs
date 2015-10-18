@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,11 @@ namespace TestAudioForm
 
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.db = new Database();
+
+            if (!File.Exists("db.sqlite"))
+            {
+                dbCheckLabel.Text = "Please click \"Create Database\"";
+            }
 
             var series1 = new Series
             {
@@ -129,12 +135,33 @@ namespace TestAudioForm
 
         private void dbButton_Click(object sender, EventArgs e)
         {
+            dbCheckLabel.Text = "Creating Database";
             db.CreateDBs();
+            dbCheckLabel.Text = "Database created";
         }
 
         private void musicButton_Click(object sender, EventArgs e)
         {
-            db.ChangeEmotion(new WindowEmotion('m', 'A', 0.0, 0.0, 0.0), new WindowEmotion('m', 'A', 0.0, 0.0, 0.0));
+            WindowEmotion goalEmo;
+            switch(emoComboBox.SelectedIndex)
+            {
+                case 0:
+                    goalEmo = new WindowEmotion('m', 'H', 0.0, 0.0, 0.0);
+                    break;
+                case 1:
+                    goalEmo = new WindowEmotion('m', 'A', 0.0, 0.0, 0.0);
+                    break;
+                case 2:
+                    goalEmo = new WindowEmotion('m', 'S', 0.0, 0.0, 0.0);
+                    break;
+                case 3:
+                    goalEmo = new WindowEmotion('m', 'F', 0.0, 0.0, 0.0);
+                    break;
+                default:
+                    goalEmo = new WindowEmotion('m', 'N', 0.0, 0.0, 0.0);
+                    break;
+            }
+            db.ChangeEmotion(new WindowEmotion('m', 'A', 0.0, 0.0, 0.0), goalEmo);
         }
     }
 }
