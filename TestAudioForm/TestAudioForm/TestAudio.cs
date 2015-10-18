@@ -52,11 +52,15 @@ namespace TestAudioForm
             waveChart.ChartAreas[0].AxisY.Enabled = AxisEnabled.False;
         }
 
+        /// <summary>
+        /// Create sound/emotion database and the music database if they don't exist yet
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TestAudio_Load(object sender, EventArgs e)
         {
             dbm = new DatabaseManager();
             db = new Database();
-            db.CreateDBs();
         }
 
         private void NewDataAvailable(object sender, WaveInEventArgs e)

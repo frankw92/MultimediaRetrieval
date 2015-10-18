@@ -35,10 +35,16 @@ namespace TestAudioForm
 
             // create audio form and pass on user settings
             TestAudio audioForm = new TestAudio(new UserSettings(gender, genres, goal));
+            audioForm.FormClosed += audioForm_FormClosed;
             audioForm.Show();
 
             // hide current form, don't close
             this.Hide();
+        }
+
+        void audioForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Close();
         }
 
         private char GetGender()

@@ -20,6 +20,7 @@ namespace TestAudioForm
         public Database()
         {
             dbConnection = new SQLiteConnection("Data Source=db.sqlite;Version=3;");
+            CreateDBs();
         }
 
         public void ChangeEmotion(char curEmo, char goalEmo, List<string> prefGenres)
