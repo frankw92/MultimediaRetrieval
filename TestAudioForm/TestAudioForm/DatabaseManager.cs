@@ -16,13 +16,14 @@ namespace TestAudioForm
 
         public DatabaseManager()
         {
-            if (File.Exists(file))
-                File.Delete(file);
             CreateDatabase();
         }
 
         void CreateDatabase()
         {
+            if (File.Exists(file))
+                File.Delete(file);
+
             string[] files = Directory.GetFiles("wav");
             DataTrainingManager dtm = new DataTrainingManager();
 

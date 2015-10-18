@@ -17,7 +17,7 @@ namespace TestAudioForm
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TestAudio());
+            Application.Run(new SettingsForm());
         }
     }
 }

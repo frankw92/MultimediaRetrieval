@@ -89,7 +89,6 @@
             this.dbButton.TabIndex = 3;
             this.dbButton.Text = "Create Database";
             this.dbButton.UseVisualStyleBackColor = true;
-            this.dbButton.Click += new System.EventHandler(this.dbButton_Click);
             // 
             // musicButton
             // 

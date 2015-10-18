@@ -26,11 +26,13 @@ namespace TestAudioForm
         private DatabaseManager dbm;
         private Database db;
 
-        public TestAudio()
+        private UserSettings settings;
+
+        public TestAudio(UserSettings settings)
         {
             InitializeComponent();
-
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.settings = settings;
 
             var series1 = new Series
             {
@@ -133,11 +135,6 @@ namespace TestAudioForm
             }
             catch 
             { }
-        }
-
-        private void dbButton_Click(object sender, EventArgs e)
-        {
-            //db.CreateDBs();
         }
 
         private void musicButton_Click(object sender, EventArgs e)
