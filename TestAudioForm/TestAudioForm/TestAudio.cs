@@ -27,16 +27,13 @@ namespace TestAudioForm
         private DatabaseManager dbm;
         private Database db;
 
-        public TestAudio()
+        private UserSettings settings;
+
+        public TestAudio(UserSettings settings)
         {
             InitializeComponent();
-
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-
-            if (!File.Exists("db.sqlite"))
-            {
-                dbCheckLabel.Text = "Please click \"Create Database\"";
-            }
+            this.settings = settings;
 
             var series1 = new Series
             {
@@ -141,35 +138,9 @@ namespace TestAudioForm
             { }
         }
 
-        private void dbButton_Click(object sender, EventArgs e)
-        {
-            dbCheckLabel.Text = "Creating Database";
-            db.CreateDBs();
-            dbCheckLabel.Text = "Database created";
-        }
-
         private void musicButton_Click(object sender, EventArgs e)
         {
-            WindowEmotion goalEmo;
-            switch(emoComboBox.SelectedIndex)
-            {
-                case 0:
-                    goalEmo = new WindowEmotion('m', 'H', 0.0, 0.0, 0.0);
-                    break;
-                case 1:
-                    goalEmo = new WindowEmotion('m', 'A', 0.0, 0.0, 0.0);
-                    break;
-                case 2:
-                    goalEmo = new WindowEmotion('m', 'S', 0.0, 0.0, 0.0);
-                    break;
-                case 3:
-                    goalEmo = new WindowEmotion('m', 'F', 0.0, 0.0, 0.0);
-                    break;
-                default:
-                    goalEmo = new WindowEmotion('m', 'N', 0.0, 0.0, 0.0);
-                    break;
-            }
-            db.ChangeEmotion(new WindowEmotion('m', 'A', 0.0, 0.0, 0.0), goalEmo);
+            db.ChangeEmotion('A', settings.GoalEmotion.Name, settings.GenrePreferences);
         }
     }
 }

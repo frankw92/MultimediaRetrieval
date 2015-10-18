@@ -22,16 +22,16 @@ namespace TestAudioForm
             dbConnection = new SQLiteConnection("Data Source=db.sqlite;Version=3;");
         }
 
-        public void ChangeEmotion(WindowEmotion curEmo, WindowEmotion goalEmo)
+        public void ChangeEmotion(char curEmo, char goalEmo, List<string> prefGenres)
         {
             float startVal, startAr, goalVal, goalAr;
             float meanVal = 5.0f, meanAr = 4.8f;
-            switch (goalEmo.Emotion)
+            switch (goalEmo)
             {
                 case 'H':
                     goalAr = 8.4f;
                     goalVal = 8.1f;
-                    switch(curEmo.Emotion)
+                    switch(curEmo)
                     {
                         case 'H':
                             startVal = 6.55f;
@@ -54,7 +54,7 @@ namespace TestAudioForm
                 case 'A':
                     goalAr = 8.4f;
                     goalVal = 1.6f;
-                    switch (curEmo.Emotion)
+                    switch (curEmo)
                     {
                         case 'H':
                             startVal = meanVal;
@@ -77,7 +77,7 @@ namespace TestAudioForm
                 case 'S':
                     goalAr = 1.6f;
                     goalVal = 1.6f;
-                    switch (curEmo.Emotion)
+                    switch (curEmo)
                     {
                         case 'A':
                             startVal = 3.3f;
@@ -100,7 +100,7 @@ namespace TestAudioForm
                 case 'F':
                     goalAr = 1.6f;
                     goalVal = 8.1f;
-                    switch (curEmo.Emotion)
+                    switch (curEmo)
                     {
                         case 'H':
                             startVal = 6.55f;
@@ -123,7 +123,7 @@ namespace TestAudioForm
                 default:
                     goalAr = meanAr;
                     goalVal = meanVal;
-                    switch (curEmo.Emotion)
+                    switch (curEmo)
                     {
                         case 'H':
                             startVal = 6.55f;
@@ -148,52 +148,69 @@ namespace TestAudioForm
                     }
                     break;
             }
-            string query = "SELECT song_id FROM static_annotations WHERE (mean_arousal BETWEEN ";
+            string query = "SELECT static_annotations.song_id FROM static_annotations INNER JOIN songs_info ON static_annotations.song_id=songs_info.song_id WHERE (mean_arousal BETWEEN ";
             if (startAr > goalAr)
             {
                 if (startVal > goalVal)
                 {
-                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + startVal.ToString().Replace(',', '.') + ");";
+                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + startVal.ToString().Replace(',', '.') + ")";
                 }
                 else if (startVal < goalVal)
                 {
-                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + startVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ");";
+                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + startVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ")";
                 }
                 else
                 {
-                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (startVal + 1.0f).ToString().Replace(',', '.') + ");";
+                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (startVal + 1.0f).ToString().Replace(',', '.') + ")";
                 }
             }
             else if (startAr < goalAr)
             {
                 if (startVal > goalVal)
                 {
-                    query += startAr.ToString().Replace(',', '.') + " AND " + goalAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + startVal.ToString().Replace(',', '.') + ");";
+                    query += startAr.ToString().Replace(',', '.') + " AND " + goalAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + startVal.ToString().Replace(',', '.') + ")";
                 }
                 else if (startVal < goalVal)
                 {
-                    query += startAr.ToString().Replace(',', '.') + " AND " + goalAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + startVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ");";
+                    query += startAr.ToString().Replace(',', '.') + " AND " + goalAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + startVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ")";
                 }
                 else
                 {
-                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (startVal + 1.0f).ToString().Replace(',', '.') + ");";
+                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (startVal + 1.0f).ToString().Replace(',', '.') + ")";
                 }
             }
             else
             {
                 if (startVal > goalVal)
                 {
-                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (startAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + startVal.ToString().Replace(',', '.') + ");";
+                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (startAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + startVal.ToString().Replace(',', '.') + ")";
                 }
                 else if (startVal < goalVal)
                 {
-                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (startAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + startVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ");";
+                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (startAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + startVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ")";
                 }
                 else
                 {
-                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (startAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (startVal + 1.0f).ToString().Replace(',', '.') + ");";
+                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (startAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (startVal + 1.0f).ToString().Replace(',', '.') + ")";
                 }
             }
+
+            query += " AND (songs_info.Genre IN (";
+            bool first = true;
+            foreach(string s in prefGenres)
+            {
+                if (first)
+                {
+                    query += "\"" + s + "\"";
+                    first = false;
+                }
+                else
+                {
+                    query += ", " + "\"" + s + "\"";
+                }
+            }
+            query += "));";
+
             dbConnection.Open();
             sql = new SQLiteCommand(query, dbConnection);
             SQLiteDataReader sqlr = sql.ExecuteReader();
@@ -222,23 +239,24 @@ namespace TestAudioForm
                 return;
 
             SQLiteConnection.CreateFile("db.sqlite");
-            CreateDB("../../../Music database/Annotations/static_annotations.csv", "static_annotations");
+            CreateDB("../../../Music database/Annotations/static_annotations.csv", "static_annotations", "real");
+            CreateDB("../../../Music database/Annotations/songs_info.csv", "songs_info", "real");
         }
 
-        private void CreateDB(string path, string name)
+        private void CreateDB(string path, string name, string datatype)
         {
             dbConnection.Open();
             string query = "CREATE TABLE  "+ name +" (";
             reader = new StreamReader(File.OpenRead(path));
             var line = reader.ReadLine();
-            var values = line.Split(';');
+            var values = line.Replace("\t", "").Split(';');
 
             for (int i = 0; i < values.Length; i++)
             {
                 if (i == 0)
                     query += values[i] + " integer, ";
                 else
-                    query += values[i] + " real, ";
+                    query += values[i] + " " + datatype + ", ";
             }
 
             query += "PRIMARY KEY (song_id) );";
@@ -249,7 +267,7 @@ namespace TestAudioForm
             {
                 query = "INSERT INTO " + name + " VALUES (";
                 line = reader.ReadLine();
-                values = line.Split(';');
+                values = line.Replace("\t","").Split(';');
                 for (int i = 0; i < values.Length; i++)
                 {
                     if (i == 0)
