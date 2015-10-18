@@ -16,13 +16,9 @@ namespace TestAudioForm
 
         public DatabaseManager()
         {
-            if (!File.Exists(file))
-                CreateDatabase();
-            else
-            {
+            if (File.Exists(file))
                 File.Delete(file);
-                CreateDatabase();
-            }
+            CreateDatabase();
         }
 
         void CreateDatabase()
@@ -113,42 +109,12 @@ namespace TestAudioForm
         /// <returns>The emotional state of the user.</returns>
         char SearchDatabaseForEmotion (WindowEmotion measurements)
         {
-            if (measurements.Gender == 'm')
-                return SearchDatabaseM(measurements);
-            else
-                return SearchDatabaseF(measurements);
-        }
+            List<WindowEmotion> db = measurements.Gender == 'm' ? DatabaseM : DatabaseF; 
 
-        char SearchDatabaseM(WindowEmotion measurements)
-        {
             char emotion = 'N'; // Instantiate as neutral emotion, will change in loop.
             double smallestDistance = Double.MaxValue; // Highest value possible
 
-            foreach (WindowEmotion dataBaseEntry in DatabaseM)
-            {
-                // Calculate distance based on sum of squared errors
-                double averagePitchDistance = measurements.AveragePitch - dataBaseEntry.AveragePitch;
-                double pitchSTDDistance = measurements.PitchSTD - dataBaseEntry.PitchSTD;
-                double energySTDDistance = measurements.EnergySTD - dataBaseEntry.EnergySTD;
-
-                double currentDistance = Math.Pow(averagePitchDistance, 2) + Math.Pow(pitchSTDDistance, 2) + Math.Pow(energySTDDistance, 2);
-
-                if (currentDistance < smallestDistance)
-                {
-                    smallestDistance = currentDistance;
-                    emotion = dataBaseEntry.Emotion;
-                }
-            }
-
-            return emotion;
-        }
-
-        char SearchDatabaseF(WindowEmotion measurements)
-        {
-            char emotion = 'N'; // Instantiate as neutral emotion, will change in loop.
-            double smallestDistance = Double.MaxValue; // Highest value possible
-
-            foreach (WindowEmotion dataBaseEntry in DatabaseF)
+            foreach (WindowEmotion dataBaseEntry in db)
             {
                 // Calculate distance based on sum of squared errors
                 double averagePitchDistance = measurements.AveragePitch - dataBaseEntry.AveragePitch;
