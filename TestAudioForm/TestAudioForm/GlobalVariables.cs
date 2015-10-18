@@ -13,7 +13,7 @@ namespace TestAudioForm
 
         private static int sampleRate = 44100;
         private static int blockSize = 8192; //Must be power of 2!!!
-        private static int windowSize = 5;
+        private static int windowSize = 2;
         private static int voiceLow = 300;
         private static int voiceHigh = 3400;
         public static Chart WaveChart;
