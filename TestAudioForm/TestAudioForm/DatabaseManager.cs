@@ -22,8 +22,8 @@ namespace TestAudioForm
         void CreateDatabase()
         {
             if (File.Exists(file))
-                File.Delete(file);
-
+                return;
+                
             string[] files = Directory.GetFiles("wav");
             DataTrainingManager dtm = new DataTrainingManager();
 
@@ -43,12 +43,10 @@ namespace TestAudioForm
                     Measurements[] measurements = dtm.measureInput(files[i]);
                     
                     // write to file, for each window
-                    // for each window
                     foreach (Measurements m in measurements)
                     {
                         sw.WriteLine(gender + " " + emotion + " " + m.averagePitch + " " + m.pitchSTD + " " + m.energySTD);
                     }
-                    // end foreach
                 }
             }
         }

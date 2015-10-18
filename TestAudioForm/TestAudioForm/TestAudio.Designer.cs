@@ -34,7 +34,6 @@
             this.startRecordingButton = new System.Windows.Forms.Button();
             this.stopRecordingButton = new System.Windows.Forms.Button();
             this.waveChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.dbButton = new System.Windows.Forms.Button();
             this.musicButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.waveChart)).BeginInit();
             this.SuspendLayout();
@@ -42,7 +41,7 @@
             // startRecordingButton
             // 
             this.startRecordingButton.Location = new System.Drawing.Point(16, 15);
-            this.startRecordingButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.startRecordingButton.Margin = new System.Windows.Forms.Padding(4);
             this.startRecordingButton.Name = "startRecordingButton";
             this.startRecordingButton.Size = new System.Drawing.Size(963, 28);
             this.startRecordingButton.TabIndex = 0;
@@ -54,7 +53,7 @@
             // 
             this.stopRecordingButton.Enabled = false;
             this.stopRecordingButton.Location = new System.Drawing.Point(17, 50);
-            this.stopRecordingButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.stopRecordingButton.Margin = new System.Windows.Forms.Padding(4);
             this.stopRecordingButton.Name = "stopRecordingButton";
             this.stopRecordingButton.Size = new System.Drawing.Size(961, 28);
             this.stopRecordingButton.TabIndex = 1;
@@ -70,7 +69,7 @@
             legend1.Name = "Legend1";
             this.waveChart.Legends.Add(legend1);
             this.waveChart.Location = new System.Drawing.Point(17, 87);
-            this.waveChart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.waveChart.Margin = new System.Windows.Forms.Padding(4);
             this.waveChart.Name = "waveChart";
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
@@ -80,20 +79,10 @@
             this.waveChart.TabIndex = 2;
             this.waveChart.Text = "waveChart";
             // 
-            // dbButton
-            // 
-            this.dbButton.Location = new System.Drawing.Point(17, 714);
-            this.dbButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.dbButton.Name = "dbButton";
-            this.dbButton.Size = new System.Drawing.Size(172, 28);
-            this.dbButton.TabIndex = 3;
-            this.dbButton.Text = "Create Database";
-            this.dbButton.UseVisualStyleBackColor = true;
-            // 
             // musicButton
             // 
-            this.musicButton.Location = new System.Drawing.Point(199, 714);
-            this.musicButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.musicButton.Location = new System.Drawing.Point(13, 717);
+            this.musicButton.Margin = new System.Windows.Forms.Padding(4);
             this.musicButton.Name = "musicButton";
             this.musicButton.Size = new System.Drawing.Size(203, 28);
             this.musicButton.TabIndex = 4;
@@ -107,11 +96,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(995, 758);
             this.Controls.Add(this.musicButton);
-            this.Controls.Add(this.dbButton);
             this.Controls.Add(this.waveChart);
             this.Controls.Add(this.stopRecordingButton);
             this.Controls.Add(this.startRecordingButton);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TestAudio";
@@ -127,7 +115,6 @@
         public System.Windows.Forms.DataVisualization.Charting.Chart waveChart;
         public System.Windows.Forms.Button startRecordingButton;
         public System.Windows.Forms.Button stopRecordingButton;
-        private System.Windows.Forms.Button dbButton;
         private System.Windows.Forms.Button musicButton;
     }
 }
