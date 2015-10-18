@@ -23,6 +23,8 @@ namespace TestAudioForm
         private int sampleRate = GlobalVariables.SampleRate;
         private Window activeWindow;
         private List<Window> windows;
+
+        private DatabaseManager dbm;
         private Database db;
 
         public TestAudio()
@@ -30,7 +32,6 @@ namespace TestAudioForm
             InitializeComponent();
 
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.db = new Database();
 
             if (!File.Exists("db.sqlite"))
             {
@@ -52,6 +53,13 @@ namespace TestAudioForm
             waveChart.ChartAreas[0].AxisY.Maximum = 0.05f;
             waveChart.ChartAreas[0].AxisY.Minimum = 0;
             waveChart.ChartAreas[0].AxisY.Enabled = AxisEnabled.False;
+        }
+
+        private void TestAudio_Load(object sender, EventArgs e)
+        {
+            dbm = new DatabaseManager();
+            db = new Database();
+            db.CreateDBs();
         }
 
         private void NewDataAvailable(object sender, WaveInEventArgs e)

@@ -218,6 +218,9 @@ namespace TestAudioForm
 
         public void CreateDBs()
         {
+            if (File.Exists("db.sqlite"))
+                return;
+
             SQLiteConnection.CreateFile("db.sqlite");
             CreateDB("../../../Music database/Annotations/static_annotations.csv", "static_annotations");
         }

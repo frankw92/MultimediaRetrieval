@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.startRecordingButton = new System.Windows.Forms.Button();
             this.stopRecordingButton = new System.Windows.Forms.Button();
             this.waveChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -65,17 +65,17 @@
             // 
             // waveChart
             // 
-            chartArea3.Name = "ChartArea1";
-            this.waveChart.ChartAreas.Add(chartArea3);
-            legend3.Enabled = false;
-            legend3.Name = "Legend1";
-            this.waveChart.Legends.Add(legend3);
+            chartArea1.Name = "ChartArea1";
+            this.waveChart.ChartAreas.Add(chartArea1);
+            legend1.Enabled = false;
+            legend1.Name = "Legend1";
+            this.waveChart.Legends.Add(legend1);
             this.waveChart.Location = new System.Drawing.Point(13, 71);
             this.waveChart.Name = "waveChart";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.waveChart.Series.Add(series3);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.waveChart.Series.Add(series1);
             this.waveChart.Size = new System.Drawing.Size(721, 533);
             this.waveChart.TabIndex = 2;
             this.waveChart.Text = "waveChart";
@@ -151,9 +151,9 @@
             this.Name = "TestAudio";
             this.Text = "Sound Analyser";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TestAudio_FormClosing);
+            this.Load += new System.EventHandler(this.TestAudio_Load);
             ((System.ComponentModel.ISupportInitialize)(this.waveChart)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
