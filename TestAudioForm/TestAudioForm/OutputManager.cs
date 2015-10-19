@@ -41,7 +41,7 @@ namespace TestAudioForm
                 sw.WriteLine("Gender;" + (settings.Gender == 'm' ? "Male" : "Female"));
                 sw.WriteLine("Gender preferences;" + string.Join(", ", settings.GenrePreferences.ToArray()));
                 sw.WriteLine("Goal emotion;" + CharToEmotion(settings.GoalEmotion) + "\n");
-                sw.WriteLine("Iteration;");
+                sw.WriteLine("Iteration;Song ID;Current emotion;Happy;Sad;Anger;Fear;Neutral");
             }
         }
 
@@ -57,11 +57,11 @@ namespace TestAudioForm
             }
         }
 
-        public void OutputIteration(/* variables */)
+        public void OutputIteration(int song, EmotionAnalysis analysis)
         {
             using (StreamWriter sw = new StreamWriter(file, true))
             {
-                sw.WriteLine(iterations + ";" + /* variables + */ ";");
+                sw.WriteLine(iterations + ";" + song + ";" + analysis.Emotion + ";" + analysis.Happy + ";" + analysis.Sad + ";" + analysis.Anger + ";" + analysis.Fear + ";" + analysis.Neutral);
             }
 
             iterations++;

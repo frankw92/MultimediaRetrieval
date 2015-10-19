@@ -23,7 +23,7 @@ namespace TestAudioForm
             this.paused = false;
         }
 
-        public void PlaySong()
+        public int PlaySong()
         {
             if (waveOut != null)
             {
@@ -35,6 +35,7 @@ namespace TestAudioForm
             mp3Reader = new Mp3FileReader(mp3Url);
             waveOut.Init(mp3Reader);
             waveOut.Play();
+            return songid;
         }
 
         public void PausePlaySong()

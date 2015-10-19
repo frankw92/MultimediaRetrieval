@@ -148,7 +148,7 @@ namespace TestAudioForm
         /// </summary>
         /// <param name="measurements"> A WindowEmotion measured from the user's speech.</param>
         /// <returns>The emotional state of the user.</returns>
-        public char SearchDatabaseForEmotion (List<Window> windows)
+        public EmotionAnalysis SearchDatabaseForEmotion (List<Window> windows)
         {
             double tHappy = 0.0f, tAnger = 0.0f, tNeutral = 0.0f, tSad = 0.0f, tFear = 0.0f;
 
@@ -199,32 +199,33 @@ namespace TestAudioForm
                 tNeutral += sNeutral;
             }
 
-            char emotion = 'N';
+            EmotionAnalysis ea = new EmotionAnalysis(tHappy, tSad, tAnger, tFear, tNeutral);
+            ea.Emotion = 'N';
 
             if (tHappy < tNeutral)
             {
-                emotion = 'H';
+                ea.Emotion = 'H';
                 tNeutral = tHappy;
             }
             if (tSad < tNeutral)
             {
-                emotion = 'S';
+                ea.Emotion = 'S';
                 tNeutral = tSad;
             } 
             if (tAnger < tNeutral)
             {
-                emotion = 'A';
+                ea.Emotion = 'A';
                 tNeutral = tAnger;
             } 
             if (tFear < tNeutral)
             {
-                emotion = 'F';
+                ea.Emotion = 'F';
                 tNeutral = tFear;
             }
 
-            System.Diagnostics.Debug.WriteLine("Your emotion is {0}", emotion);
+            System.Diagnostics.Debug.WriteLine("Your emotion is {0}", ea.Emotion);
 
-            return emotion;
+            return ea;
         }
     }
 }

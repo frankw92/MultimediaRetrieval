@@ -72,6 +72,7 @@
     <Compile Include="Database.cs" />
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="DataTrainingManager.cs" />
+    <Compile Include="EmotionAnalysis.cs" />
     <Compile Include="GlobalVariables.cs" />
     <Compile Include="MusicPlayer.cs" />
     <Compile Include="OutputManager.cs" />
