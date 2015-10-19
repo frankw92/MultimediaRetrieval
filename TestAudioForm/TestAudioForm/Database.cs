@@ -229,7 +229,7 @@ namespace TestAudioForm
 
             SQLiteConnection.CreateFile("db.sqlite");
             CreateDB("../../../Music database/Annotations/static_annotations.csv", "static_annotations", "real");
-            CreateDB("../../../Music database/Annotations/songs_info.csv", "songs_info", "real");
+            CreateDB("../../../Music database/Annotations/songs_info.csv", "songs_info", "text");
         }
 
         private void CreateDB(string path, string name, string datatype)
