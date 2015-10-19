@@ -148,7 +148,15 @@ namespace TestAudioForm
 
         private void musicButton_Click(object sender, EventArgs e)
         {
-            this.musicPlayer.PlaySong();
+            try
+            {
+                this.musicPlayer.PlaySong();
+            }
+            catch
+            {
+                this.musicPlayer = new MusicPlayer(db.CreatePlaylist('A', settings.GoalEmotion, settings.GenrePreferences));
+                this.musicPlayer.PlaySong();
+            }
         }
 
         private void pauseButton_Click(object sender, EventArgs e)
