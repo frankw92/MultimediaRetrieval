@@ -7,6 +7,7 @@ namespace TestAudioForm
     class OutputManager
     {
         string file;
+        int iterations;
 
         public OutputManager(UserSettings settings)
         {
@@ -16,6 +17,8 @@ namespace TestAudioForm
 
             // Create a new file for the current subject
             CreateNewFile(settings);
+
+            iterations = 1;
         }
 
         private void CreateNewFile(UserSettings settings)
@@ -58,8 +61,10 @@ namespace TestAudioForm
         {
             using (StreamWriter sw = new StreamWriter(file, true))
             {
-                sw.WriteLine(/* variables + */ ";");
+                sw.WriteLine(iterations + ";" + /* variables + */ ";");
             }
+
+            iterations++;
         }
     }
 }
