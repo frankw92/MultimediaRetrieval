@@ -15,7 +15,6 @@ namespace TestAudioForm
         SQLiteConnection dbConnection;
         SQLiteCommand sql;
         StreamReader reader;
-        Mp3FileReader mp3Reader;
 
         public Database()
         {
@@ -23,7 +22,7 @@ namespace TestAudioForm
             CreateDBs();
         }
 
-        public void ChangeEmotion(char curEmo, char goalEmo, List<string> prefGenres)
+        public List<int> CreatePlaylist(char curEmo, char goalEmo, List<string> prefGenres)
         {
             float startVal, startAr, goalVal, goalAr;
             float meanVal = 5.0f, meanAr = 4.8f;
@@ -220,20 +219,9 @@ namespace TestAudioForm
             {
                 songIDs.Add(sqlr.GetInt32(0));
             }
-            dbConnection.Close();
-            Random r = new Random();
-            PlaySong(songIDs[r.Next(songIDs.Count)]);
+            return songIDs;
         }
-
-        public void PlaySong(int songid)
-        {
-            string mp3Url = "../../../Music database/clips_45seconds/" + songid.ToString() + ".mp3";
-            mp3Reader = new Mp3FileReader(mp3Url);
-            var waveOut = new WaveOut(); 
-            waveOut.Init(mp3Reader);
-            waveOut.Play();
-        }
-
+        
         public void CreateDBs()
         {
             if (File.Exists("db.sqlite"))
@@ -241,7 +229,7 @@ namespace TestAudioForm
 
             SQLiteConnection.CreateFile("db.sqlite");
             CreateDB("../../../Music database/Annotations/static_annotations.csv", "static_annotations", "real");
-            CreateDB("../../../Music database/Annotations/songs_info.csv", "songs_info", "real");
+            CreateDB("../../../Music database/Annotations/songs_info.csv", "songs_info", "text");
         }
 
         private void CreateDB(string path, string name, string datatype)

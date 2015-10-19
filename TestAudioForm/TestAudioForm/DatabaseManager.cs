@@ -148,28 +148,81 @@ namespace TestAudioForm
         /// </summary>
         /// <param name="measurements"> A WindowEmotion measured from the user's speech.</param>
         /// <returns>The emotional state of the user.</returns>
-        public char SearchDatabaseForEmotion (WindowEmotion measurements)
+        public char SearchDatabaseForEmotion (List<Window> windows)
         {
-            List<WindowEmotion> db = measurements.Gender == 'm' ? DatabaseM : DatabaseF; 
+            double tHappy = 0.0f, tAnger = 0.0f, tNeutral = 0.0f, tSad = 0.0f, tFear = 0.0f;
 
-            char emotion = 'N'; // Instantiate as neutral emotion, will change in loop.
-            double smallestDistance = Double.MaxValue; // Highest value possible
+            List<WindowEmotion> db = GlobalVariables.Gender == 'm' ? DatabaseM : DatabaseF;
 
-            foreach (WindowEmotion dataBaseEntry in db)
+            foreach (Window window in windows)
             {
-                // Calculate distance based on sum of squared errors
-                double averagePitchDistance = measurements.AveragePitch - dataBaseEntry.AveragePitch;
-                double pitchSTDDistance = measurements.PitchSTD - dataBaseEntry.PitchSTD;
-                double energySTDDistance = measurements.EnergySTD - dataBaseEntry.EnergySTD;
+                double sHappy = Double.MaxValue, sAnger = Double.MaxValue, sNeutral = Double.MaxValue, sSad = Double.MaxValue, sFear = Double.MaxValue;
 
-                double currentDistance = Math.Pow(averagePitchDistance / pitchDifference, 2) + Math.Pow(pitchSTDDistance / pitchSTDDifference, 2) + Math.Pow(energySTDDistance / energySTDDifference, 2);
-
-                if (currentDistance < smallestDistance)
+                foreach(WindowEmotion dataBaseEntry in db)
                 {
-                    smallestDistance = currentDistance;
-                    emotion = dataBaseEntry.Emotion;
+                    // Calculate distance based on sum of squared errors
+                    double averagePitchDistance = window.Measurements.averagePitch - dataBaseEntry.AveragePitch;
+                    double pitchSTDDistance = window.Measurements.pitchSTD - dataBaseEntry.PitchSTD;
+                    double energySTDDistance = window.Measurements.energySTD - dataBaseEntry.EnergySTD;
+
+                    double currentDistance = Math.Pow(averagePitchDistance / pitchDifference, 2) + Math.Pow(pitchSTDDistance / pitchSTDDifference, 2) + Math.Pow(energySTDDistance / energySTDDifference, 2);
+
+                    switch (dataBaseEntry.Emotion)
+                    {
+                        case 'H':
+                            if (currentDistance < sHappy)
+                                sHappy = currentDistance;
+                            break;
+                        case 'A':
+                            if (currentDistance < sAnger)
+                                sAnger = currentDistance;
+                            break;
+                        case 'S':
+                            if (currentDistance < sSad)
+                                sSad = currentDistance;
+                            break;
+                        case 'F':
+                            if (currentDistance < sFear)
+                                sFear = currentDistance;
+                            break;
+                        default:
+                            if (currentDistance < sNeutral)
+                                sNeutral = currentDistance;
+                            break;
+                    }
                 }
+
+                tHappy += sHappy;
+                tSad += sSad;
+                tAnger += sAnger;
+                tFear += sFear;
+                tNeutral += sNeutral;
             }
+
+            char emotion = 'N';
+
+            if (tHappy < tNeutral)
+            {
+                emotion = 'H';
+                tNeutral = tHappy;
+            }
+            if (tSad < tNeutral)
+            {
+                emotion = 'S';
+                tNeutral = tSad;
+            } 
+            if (tAnger < tNeutral)
+            {
+                emotion = 'A';
+                tNeutral = tAnger;
+            } 
+            if (tFear < tNeutral)
+            {
+                emotion = 'F';
+                tNeutral = tFear;
+            }
+
+            System.Diagnostics.Debug.WriteLine("Your emotion is {0}", emotion);
 
             return emotion;
         }

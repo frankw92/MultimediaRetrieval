@@ -23,6 +23,7 @@ namespace TestAudioForm
 
             // gather all user settings
             char gender = GetGender();
+            GlobalVariables.Gender = gender;
             List<string> genres = GetGenrePreferences();
             char goal = GetGoalEmotion();
 
