@@ -29,6 +29,9 @@ namespace TestAudioForm
 
         private UserSettings settings;
 
+        private MusicPlayer musicPlayer;
+        private bool paused = false;
+
         public TestAudio(UserSettings settings)
         {
             InitializeComponent();
@@ -145,7 +148,19 @@ namespace TestAudioForm
 
         private void musicButton_Click(object sender, EventArgs e)
         {
-            db.ChangeEmotion('A', settings.GoalEmotion, settings.GenrePreferences);
+            this.musicPlayer.PlaySong();
+        }
+
+        private void pauseButton_Click(object sender, EventArgs e)
+        {
+            this.musicPlayer.Paused = this.paused;
+            this.musicPlayer.PausePlaySong();
+            this.paused = this.musicPlayer.Paused;
+        }
+
+        private void playlistButton_Click(object sender, EventArgs e)
+        {
+            this.musicPlayer = new MusicPlayer(db.CreatePlaylist('A', settings.GoalEmotion, settings.GenrePreferences));
         }
     }
 }
