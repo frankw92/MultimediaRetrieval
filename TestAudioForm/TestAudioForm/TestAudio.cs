@@ -115,7 +115,7 @@ namespace TestAudioForm
 
         private void stopRecordingButton_Click(object sender, EventArgs e)
         {
-            //dbm.SearchDatabaseForEmotion();
+            //dbm.SearchDatabaseForEmotion(windows);
             try
             {
                 waveIn.StopRecording();

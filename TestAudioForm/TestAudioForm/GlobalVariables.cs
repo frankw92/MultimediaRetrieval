@@ -16,6 +16,7 @@ namespace TestAudioForm
         private static int windowSize = 3;
         private static int voiceLow = 300;
         private static int voiceHigh = 3400;
+        public static char Gender;
         public static Chart WaveChart;
 
         public static int SampleRate
