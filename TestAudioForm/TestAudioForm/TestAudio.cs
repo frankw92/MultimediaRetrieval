@@ -106,19 +106,18 @@ namespace TestAudioForm
             try
             {
                 waveIn.StartRecording();
+                stopRecordingButton.Enabled = true;
+                startRecordingButton.Enabled = false;
             }
             catch
             {
-                MessageBox.Show("Ja echt dom om te recorden zonder microfoon...");
+                MessageBox.Show("No recording device found!");
             }
-
-            stopRecordingButton.Enabled = true;
-            startRecordingButton.Enabled = false;
         }
 
         private void stopRecordingButton_Click(object sender, EventArgs e)
         {
-            //dbm.SearchDatabaseForEmotion(windows);
+            dbm.SearchDatabaseForEmotion(windows);
             try
             {
                 waveIn.StopRecording();

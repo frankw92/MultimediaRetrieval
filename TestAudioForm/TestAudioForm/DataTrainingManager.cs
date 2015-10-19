@@ -41,8 +41,7 @@ namespace TestAudioForm
                 {
                     ProcessFile(reader);
                 }
-            }
-            
+            } 
             return GetFileMeasurements();
         }
 
