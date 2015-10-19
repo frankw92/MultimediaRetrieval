@@ -144,7 +144,7 @@ namespace TestAudioForm
 
         private void musicButton_Click(object sender, EventArgs e)
         {
-            db.ChangeEmotion('A', settings.GoalEmotion.Name, settings.GenrePreferences);
+            db.ChangeEmotion('A', settings.GoalEmotion, settings.GenrePreferences);
         }
     }
 }

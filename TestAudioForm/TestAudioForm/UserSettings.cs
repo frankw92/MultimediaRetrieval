@@ -8,9 +8,9 @@ namespace TestAudioForm
     {
         public readonly char Gender;
         public readonly List<string> GenrePreferences;
-        public readonly Emotion GoalEmotion;
+        public readonly char GoalEmotion;
 
-        public UserSettings(char gender, List<string> genrePreferences, Emotion goalEmotion)
+        public UserSettings(char gender, List<string> genrePreferences, char goalEmotion)
         {
             Gender = gender;
             GenrePreferences = genrePreferences;

@@ -205,6 +205,7 @@
             this.neutralRb.Size = new System.Drawing.Size(69, 20);
             this.neutralRb.TabIndex = 4;
             this.neutralRb.TabStop = true;
+            this.neutralRb.Tag = "N";
             this.neutralRb.Text = "Neutral";
             this.neutralRb.UseVisualStyleBackColor = true;
             // 
@@ -216,6 +217,7 @@
             this.sadRb.Size = new System.Drawing.Size(51, 20);
             this.sadRb.TabIndex = 3;
             this.sadRb.TabStop = true;
+            this.sadRb.Tag = "S";
             this.sadRb.Text = "Sad";
             this.sadRb.UseVisualStyleBackColor = true;
             // 
@@ -227,6 +229,7 @@
             this.happyRb.Size = new System.Drawing.Size(67, 20);
             this.happyRb.TabIndex = 2;
             this.happyRb.TabStop = true;
+            this.happyRb.Tag = "H";
             this.happyRb.Text = "Happy";
             this.happyRb.UseVisualStyleBackColor = true;
             // 
@@ -238,6 +241,7 @@
             this.scaredRb.Size = new System.Drawing.Size(70, 20);
             this.scaredRb.TabIndex = 1;
             this.scaredRb.TabStop = true;
+            this.scaredRb.Tag = "F";
             this.scaredRb.Text = "Scared";
             this.scaredRb.UseVisualStyleBackColor = true;
             // 
@@ -249,6 +253,7 @@
             this.angryRb.Size = new System.Drawing.Size(61, 20);
             this.angryRb.TabIndex = 0;
             this.angryRb.TabStop = true;
+            this.angryRb.Tag = "A";
             this.angryRb.Text = "Angry";
             this.angryRb.UseVisualStyleBackColor = true;
             // 

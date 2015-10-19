@@ -72,7 +72,6 @@
     <Compile Include="Database.cs" />
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="DataTrainingManager.cs" />
-    <Compile Include="Emotion.cs" />
     <Compile Include="GlobalVariables.cs" />
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>

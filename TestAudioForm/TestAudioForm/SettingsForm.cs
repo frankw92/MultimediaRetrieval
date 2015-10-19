@@ -24,10 +24,10 @@ namespace TestAudioForm
             // gather all user settings
             char gender = GetGender();
             List<string> genres = GetGenrePreferences();
-            Emotion goal = GetGoalEmotion();
+            char goal = GetGoalEmotion();
 
             // check if all settings are sets
-            if (gender == 'n' || genres.Count == 0 || goal == null)
+            if (gender == 'n' || genres.Count == 0 || goal == 'X')
             {
                 errorLbl.Show();
                 return;
@@ -65,32 +65,13 @@ namespace TestAudioForm
             return genres;
         }
 
-        private Emotion GetGoalEmotion()
+        private char GetGoalEmotion()
         {
             foreach (Control c in goalGb.Controls)
                 if (c is RadioButton && (c as RadioButton).Checked)
-                    return StringToEmotion(c.Text);
+                    return (char)c.Tag;
 
-            return null;
-        }
-
-        private Emotion StringToEmotion(string text)
-        {
-            switch (text)
-            {
-                case "Happy":
-                    return new Emotion('H');
-                case "Sad":
-                    return new Emotion('S');
-                case "Angry":
-                    return new Emotion(-1, 0);
-                case "Scared":
-                    return new Emotion(1, 0);
-                case "Neutral": 
-                    return new Emotion('N');
-                default:
-                    return null;
-            }
+            return 'X';
         }
     }
 }
