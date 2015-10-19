@@ -17,6 +17,7 @@ namespace TestAudioForm
         public DatabaseManager()
         {
             CreateDatabase();
+            ReadFile();
         }
 
         void CreateDatabase()
@@ -42,6 +43,9 @@ namespace TestAudioForm
                     // get values pitch, energy per window
                     Measurements[] measurements = dtm.measureInput(files[i]);
                     
+                    if (measurements == null)                
+                        continue;
+
                     // write to file, for each window
                     foreach (Measurements m in measurements)
                     {
@@ -82,22 +86,26 @@ namespace TestAudioForm
         {
             using (StreamReader sr = new StreamReader(file))
             {
-                string[] line = sr.ReadLine().Split(' ');
+                string input = sr.ReadLine();
+                while (!(input == null)) { 
+                    string[] line = input.Split(' ');
 
-                char gender = line[0][0];
-                char emotion = line[1][0];
+                    char gender = line[0][0];
+                    char emotion = line[1][0];
                 
-                // The values
-                double averagePitch = Double.Parse(line[2]);
-                double pitchSTD = Double.Parse(line[3]);
-                double energySTD = Double.Parse(line[4]); 
+                    // The values
+                    double averagePitch = Double.Parse(line[2]);
+                    double pitchSTD = Double.Parse(line[3]);
+                    double energySTD = Double.Parse(line[4]); 
 
-                WindowEmotion we = new WindowEmotion(gender, emotion, averagePitch, pitchSTD, energySTD);
+                    WindowEmotion we = new WindowEmotion(gender, emotion, averagePitch, pitchSTD, energySTD);
 
-                if (gender == 'm')
-                    DatabaseM.Add(we);
-                else
-                    DatabaseF.Add(we);
+                    if (gender == 'm')
+                        DatabaseM.Add(we);
+                    else
+                        DatabaseF.Add(we);
+                    input = sr.ReadLine();
+                }
             }
         }
 
@@ -106,7 +114,7 @@ namespace TestAudioForm
         /// </summary>
         /// <param name="measurements"> A WindowEmotion measured from the user's speech.</param>
         /// <returns>The emotional state of the user.</returns>
-        char SearchDatabaseForEmotion (WindowEmotion measurements)
+        public char SearchDatabaseForEmotion (WindowEmotion measurements)
         {
             List<WindowEmotion> db = measurements.Gender == 'm' ? DatabaseM : DatabaseF; 
 

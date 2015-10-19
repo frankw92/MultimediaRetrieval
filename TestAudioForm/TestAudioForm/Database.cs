@@ -222,7 +222,7 @@ namespace TestAudioForm
             }
             dbConnection.Close();
             Random r = new Random();
-            PlaySong(songIDs[r.Next(songIDs.Count + 1)]);
+            PlaySong(songIDs[r.Next(songIDs.Count)]);
         }
 
         public void PlaySong(int songid)
