@@ -41,13 +41,13 @@
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.goalGb = new System.Windows.Forms.GroupBox();
-            this.continueBtn = new System.Windows.Forms.Button();
-            this.relaxedRb = new System.Windows.Forms.RadioButton();
-            this.energizedRb = new System.Windows.Forms.RadioButton();
-            this.happyRb = new System.Windows.Forms.RadioButton();
-            this.sadRb = new System.Windows.Forms.RadioButton();
-            this.errorLbl = new System.Windows.Forms.Label();
             this.neutralRb = new System.Windows.Forms.RadioButton();
+            this.sadRb = new System.Windows.Forms.RadioButton();
+            this.happyRb = new System.Windows.Forms.RadioButton();
+            this.scaredRb = new System.Windows.Forms.RadioButton();
+            this.angryRb = new System.Windows.Forms.RadioButton();
+            this.continueBtn = new System.Windows.Forms.Button();
+            this.errorLbl = new System.Windows.Forms.Label();
             this.genderGb.SuspendLayout();
             this.genreGb.SuspendLayout();
             this.goalGb.SuspendLayout();
@@ -188,79 +188,14 @@
             this.goalGb.Controls.Add(this.neutralRb);
             this.goalGb.Controls.Add(this.sadRb);
             this.goalGb.Controls.Add(this.happyRb);
-            this.goalGb.Controls.Add(this.energizedRb);
-            this.goalGb.Controls.Add(this.relaxedRb);
+            this.goalGb.Controls.Add(this.scaredRb);
+            this.goalGb.Controls.Add(this.angryRb);
             this.goalGb.Location = new System.Drawing.Point(12, 98);
             this.goalGb.Name = "goalGb";
             this.goalGb.Size = new System.Drawing.Size(151, 152);
             this.goalGb.TabIndex = 9;
             this.goalGb.TabStop = false;
             this.goalGb.Text = "I want to become...";
-            // 
-            // continueBtn
-            // 
-            this.continueBtn.Location = new System.Drawing.Point(234, 256);
-            this.continueBtn.Name = "continueBtn";
-            this.continueBtn.Size = new System.Drawing.Size(86, 25);
-            this.continueBtn.TabIndex = 0;
-            this.continueBtn.Text = "Continue";
-            this.continueBtn.UseVisualStyleBackColor = true;
-            this.continueBtn.Click += new System.EventHandler(this.continueBtn_Click);
-            // 
-            // relaxedRb
-            // 
-            this.relaxedRb.AutoSize = true;
-            this.relaxedRb.Location = new System.Drawing.Point(6, 21);
-            this.relaxedRb.Name = "relaxedRb";
-            this.relaxedRb.Size = new System.Drawing.Size(77, 20);
-            this.relaxedRb.TabIndex = 0;
-            this.relaxedRb.TabStop = true;
-            this.relaxedRb.Text = "Relaxed";
-            this.relaxedRb.UseVisualStyleBackColor = true;
-            // 
-            // energizedRb
-            // 
-            this.energizedRb.AutoSize = true;
-            this.energizedRb.Location = new System.Drawing.Point(6, 47);
-            this.energizedRb.Name = "energizedRb";
-            this.energizedRb.Size = new System.Drawing.Size(87, 20);
-            this.energizedRb.TabIndex = 1;
-            this.energizedRb.TabStop = true;
-            this.energizedRb.Text = "Energized";
-            this.energizedRb.UseVisualStyleBackColor = true;
-            // 
-            // happyRb
-            // 
-            this.happyRb.AutoSize = true;
-            this.happyRb.Location = new System.Drawing.Point(6, 73);
-            this.happyRb.Name = "happyRb";
-            this.happyRb.Size = new System.Drawing.Size(67, 20);
-            this.happyRb.TabIndex = 2;
-            this.happyRb.TabStop = true;
-            this.happyRb.Text = "Happy";
-            this.happyRb.UseVisualStyleBackColor = true;
-            // 
-            // sadRb
-            // 
-            this.sadRb.AutoSize = true;
-            this.sadRb.Location = new System.Drawing.Point(6, 99);
-            this.sadRb.Name = "sadRb";
-            this.sadRb.Size = new System.Drawing.Size(51, 20);
-            this.sadRb.TabIndex = 3;
-            this.sadRb.TabStop = true;
-            this.sadRb.Text = "Sad";
-            this.sadRb.UseVisualStyleBackColor = true;
-            // 
-            // errorLbl
-            // 
-            this.errorLbl.AutoSize = true;
-            this.errorLbl.ForeColor = System.Drawing.Color.Red;
-            this.errorLbl.Location = new System.Drawing.Point(15, 260);
-            this.errorLbl.Name = "errorLbl";
-            this.errorLbl.Size = new System.Drawing.Size(145, 16);
-            this.errorLbl.TabIndex = 10;
-            this.errorLbl.Text = "Please fill in all settings";
-            this.errorLbl.Visible = false;
             // 
             // neutralRb
             // 
@@ -272,6 +207,71 @@
             this.neutralRb.TabStop = true;
             this.neutralRb.Text = "Neutral";
             this.neutralRb.UseVisualStyleBackColor = true;
+            // 
+            // sadRb
+            // 
+            this.sadRb.AutoSize = true;
+            this.sadRb.Location = new System.Drawing.Point(6, 47);
+            this.sadRb.Name = "sadRb";
+            this.sadRb.Size = new System.Drawing.Size(51, 20);
+            this.sadRb.TabIndex = 3;
+            this.sadRb.TabStop = true;
+            this.sadRb.Text = "Sad";
+            this.sadRb.UseVisualStyleBackColor = true;
+            // 
+            // happyRb
+            // 
+            this.happyRb.AutoSize = true;
+            this.happyRb.Location = new System.Drawing.Point(6, 21);
+            this.happyRb.Name = "happyRb";
+            this.happyRb.Size = new System.Drawing.Size(67, 20);
+            this.happyRb.TabIndex = 2;
+            this.happyRb.TabStop = true;
+            this.happyRb.Text = "Happy";
+            this.happyRb.UseVisualStyleBackColor = true;
+            // 
+            // scaredRb
+            // 
+            this.scaredRb.AutoSize = true;
+            this.scaredRb.Location = new System.Drawing.Point(6, 99);
+            this.scaredRb.Name = "scaredRb";
+            this.scaredRb.Size = new System.Drawing.Size(70, 20);
+            this.scaredRb.TabIndex = 1;
+            this.scaredRb.TabStop = true;
+            this.scaredRb.Text = "Scared";
+            this.scaredRb.UseVisualStyleBackColor = true;
+            // 
+            // angryRb
+            // 
+            this.angryRb.AutoSize = true;
+            this.angryRb.Location = new System.Drawing.Point(6, 73);
+            this.angryRb.Name = "angryRb";
+            this.angryRb.Size = new System.Drawing.Size(61, 20);
+            this.angryRb.TabIndex = 0;
+            this.angryRb.TabStop = true;
+            this.angryRb.Text = "Angry";
+            this.angryRb.UseVisualStyleBackColor = true;
+            // 
+            // continueBtn
+            // 
+            this.continueBtn.Location = new System.Drawing.Point(234, 256);
+            this.continueBtn.Name = "continueBtn";
+            this.continueBtn.Size = new System.Drawing.Size(86, 25);
+            this.continueBtn.TabIndex = 0;
+            this.continueBtn.Text = "Continue";
+            this.continueBtn.UseVisualStyleBackColor = true;
+            this.continueBtn.Click += new System.EventHandler(this.continueBtn_Click);
+            // 
+            // errorLbl
+            // 
+            this.errorLbl.AutoSize = true;
+            this.errorLbl.ForeColor = System.Drawing.Color.Red;
+            this.errorLbl.Location = new System.Drawing.Point(15, 260);
+            this.errorLbl.Name = "errorLbl";
+            this.errorLbl.Size = new System.Drawing.Size(145, 16);
+            this.errorLbl.TabIndex = 10;
+            this.errorLbl.Text = "Please fill in all settings";
+            this.errorLbl.Visible = false;
             // 
             // SettingsForm
             // 
@@ -314,8 +314,8 @@
         private System.Windows.Forms.Button continueBtn;
         private System.Windows.Forms.RadioButton sadRb;
         private System.Windows.Forms.RadioButton happyRb;
-        private System.Windows.Forms.RadioButton energizedRb;
-        private System.Windows.Forms.RadioButton relaxedRb;
+        private System.Windows.Forms.RadioButton scaredRb;
+        private System.Windows.Forms.RadioButton angryRb;
         private System.Windows.Forms.Label errorLbl;
         private System.Windows.Forms.RadioButton neutralRb;
     }

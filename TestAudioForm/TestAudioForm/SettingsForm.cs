@@ -78,14 +78,14 @@ namespace TestAudioForm
         {
             switch (text)
             {
-                case "Relaxed":
-                    return new Emotion(-1, 0);
-                case "Energized":
-                    return new Emotion(1, 0);
                 case "Happy":
                     return new Emotion('H');
                 case "Sad":
                     return new Emotion('S');
+                case "Angry":
+                    return new Emotion(-1, 0);
+                case "Scared":
+                    return new Emotion(1, 0);
                 case "Neutral": 
                     return new Emotion('N');
                 default:
