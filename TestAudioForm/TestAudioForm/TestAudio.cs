@@ -26,6 +26,7 @@ namespace TestAudioForm
 
         private DatabaseManager dbm;
         private Database db;
+        private OutputManager om;
 
         private UserSettings settings;
 
@@ -34,6 +35,7 @@ namespace TestAudioForm
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.settings = settings;
+            this.om = new OutputManager(settings);
 
             var series1 = new Series
             {
@@ -115,7 +117,6 @@ namespace TestAudioForm
 
         private void stopRecordingButton_Click(object sender, EventArgs e)
         {
-            //dbm.SearchDatabaseForEmotion();
             try
             {
                 waveIn.StopRecording();
@@ -125,9 +126,10 @@ namespace TestAudioForm
             }
             catch { }
 
-
             stopRecordingButton.Enabled = false;
             startRecordingButton.Enabled = true;
+
+            om.OutputIteration();
         }
 
         private void TestAudio_FormClosing(object sender, FormClosingEventArgs e)

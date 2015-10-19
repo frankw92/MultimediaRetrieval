@@ -27,14 +27,14 @@ namespace TestAudioForm
             char goal = GetGoalEmotion();
 
             // check if all settings are sets
-            if (gender == 'n' || genres.Count == 0 || goal == 'X')
+            if (subjectTxt.Text == "" || gender == 'n' || genres.Count == 0 || goal == 'X')
             {
                 errorLbl.Show();
                 return;
             }
 
             // create audio form and pass on user settings
-            TestAudio audioForm = new TestAudio(new UserSettings(gender, genres, goal));
+            TestAudio audioForm = new TestAudio(new UserSettings(subjectTxt.Text, gender, genres, goal));
             audioForm.FormClosed += audioForm_FormClosed;
             audioForm.Show();
 

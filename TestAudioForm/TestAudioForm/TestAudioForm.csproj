@@ -73,6 +73,7 @@
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="DataTrainingManager.cs" />
     <Compile Include="GlobalVariables.cs" />
+    <Compile Include="OutputManager.cs" />
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
