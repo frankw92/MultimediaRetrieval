@@ -69,7 +69,7 @@ namespace TestAudioForm
         {
             foreach (Control c in goalGb.Controls)
                 if (c is RadioButton && (c as RadioButton).Checked)
-                    return (char)c.Tag;
+                    return Convert.ToChar(c.Tag);
 
             return 'X';
         }
