@@ -12,6 +12,8 @@ namespace TestAudioForm
         public List<WindowEmotion> DatabaseM = new List<WindowEmotion>();
         public List<WindowEmotion> DatabaseF = new List<WindowEmotion>();
 
+        double pitchDifference, pitchSTDDifference, energySTDDifference;
+
         string file = "soundDb.txt";
 
         public DatabaseManager()
@@ -84,10 +86,18 @@ namespace TestAudioForm
 
         void ReadFile()
         {
+            double minPitch = double.MaxValue;
+            double maxPitch = double.MinValue;
+            double minPitchSTD = double.MaxValue;
+            double maxPitchSTD = double.MinValue;
+            double minEnergySTD = double.MaxValue;
+            double maxEnergySTD = double.MinValue;
+
             using (StreamReader sr = new StreamReader(file))
             {
                 string input = sr.ReadLine();
-                while (!(input == null)) { 
+                while (input != null)
+                { 
                     string[] line = input.Split(' ');
 
                     char gender = line[0][0];
@@ -96,17 +106,41 @@ namespace TestAudioForm
                     // The values
                     double averagePitch = Double.Parse(line[2]);
                     double pitchSTD = Double.Parse(line[3]);
-                    double energySTD = Double.Parse(line[4]); 
+                    double energySTD = Double.Parse(line[4]);
 
+                    // Check for all the variables if it's a new max or min
+                    if (averagePitch < minPitch)
+                        minPitch = averagePitch;
+                    else if (averagePitch > maxPitch)
+                        maxPitch = averagePitch;
+
+                    if (pitchSTD < minPitchSTD)
+                        minPitchSTD = pitchSTD;
+                    else if (pitchSTD > maxPitchSTD)
+                        maxPitchSTD = pitchSTD;
+
+                    if (energySTD < minEnergySTD)
+                        minEnergySTD = energySTD;
+                    else if (energySTD > maxEnergySTD)
+                        maxEnergySTD = energySTD;
+
+                    // Create a new window emotion object and add it to the right list
                     WindowEmotion we = new WindowEmotion(gender, emotion, averagePitch, pitchSTD, energySTD);
 
                     if (gender == 'm')
                         DatabaseM.Add(we);
                     else
                         DatabaseF.Add(we);
+
+                    // Read a new line
                     input = sr.ReadLine();
                 }
             }
+
+            // Calculate differences between min and max values
+            pitchDifference = Math.Abs(maxPitch - minPitch);
+            pitchSTDDifference = Math.Abs(maxPitchSTD - minPitchSTD);
+            energySTDDifference = Math.Abs(maxEnergySTD - minEnergySTD);
         }
 
         /// <summary>
@@ -128,7 +162,7 @@ namespace TestAudioForm
                 double pitchSTDDistance = measurements.PitchSTD - dataBaseEntry.PitchSTD;
                 double energySTDDistance = measurements.EnergySTD - dataBaseEntry.EnergySTD;
 
-                double currentDistance = Math.Pow(averagePitchDistance, 2) + Math.Pow(pitchSTDDistance, 2) + Math.Pow(energySTDDistance, 2);
+                double currentDistance = Math.Pow(averagePitchDistance / pitchDifference, 2) + Math.Pow(pitchSTDDistance / pitchSTDDifference, 2) + Math.Pow(energySTDDistance / energySTDDifference, 2);
 
                 if (currentDistance < smallestDistance)
                 {
