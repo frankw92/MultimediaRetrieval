@@ -27,6 +27,7 @@ namespace TestAudioForm
         private DatabaseManager dbm;
         private Database db;
         private OutputManager om;
+        private EmotionCalculator ec;
 
         private UserSettings settings;
 
@@ -41,6 +42,7 @@ namespace TestAudioForm
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.settings = settings;
             this.om = new OutputManager(settings);
+            this.ec = new EmotionCalculator();
 
             var series1 = new Series
             {

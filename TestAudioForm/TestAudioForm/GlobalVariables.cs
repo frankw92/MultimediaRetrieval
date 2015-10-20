@@ -19,6 +19,12 @@ namespace TestAudioForm
         public static char Gender;
         public static Chart WaveChart;
 
+        public static readonly EmotionVector Anger = new EmotionVector(1, -1);
+        public static readonly EmotionVector Happy = new EmotionVector(0.5, 1);
+        public static readonly EmotionVector Sad = new EmotionVector(-0.5, -0.5);
+        public static readonly EmotionVector Fear = new EmotionVector(0.5, -0.5);
+        public static readonly EmotionVector Neutral = new EmotionVector(0, 0);
+
         public static int SampleRate
         {
             get { return sampleRate; }
