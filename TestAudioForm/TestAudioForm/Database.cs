@@ -122,6 +122,7 @@ namespace TestAudioForm
             {
                 songIDs.Add(sqlr.GetInt32(0));
             }
+            dbConnection.Close();
             return songIDs;
         }
         
