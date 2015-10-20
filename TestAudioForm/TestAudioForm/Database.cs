@@ -51,56 +51,13 @@ namespace TestAudioForm
             goalAr = (float)goalEmotion.Arousal;
             goalVal = (float)goalEmotion.Valence;
 
-            string query = "SELECT song_id FROM db WHERE (mean_arousal BETWEEN ";
-            if (startAr > goalAr)
-            {
-                if (startVal > goalVal)
-                {
-                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + startVal.ToString().Replace(',', '.') + ")";
-                }
-                else if (startVal < goalVal)
-                {
-                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + startVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ")";
-                }
-                else
-                {
-                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (startVal + 1.0f).ToString().Replace(',', '.') + ")";
-                }
-            }
-            else if (startAr < goalAr)
-            {
-                if (startVal > goalVal)
-                {
-                    query += startAr.ToString().Replace(',', '.') + " AND " + goalAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + startVal.ToString().Replace(',', '.') + ")";
-                }
-                else if (startVal < goalVal)
-                {
-                    query += startAr.ToString().Replace(',', '.') + " AND " + goalAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + startVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ")";
-                }
-                else
-                {
-                    query += goalAr.ToString().Replace(',', '.') + " AND " + startAr.ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (startVal + 1.0f).ToString().Replace(',', '.') + ")";
-                }
-            }
-            else
-            {
-                if (startVal > goalVal)
-                {
-                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (startAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + goalVal.ToString().Replace(',', '.') + " AND " + startVal.ToString().Replace(',', '.') + ")";
-                }
-                else if (startVal < goalVal)
-                {
-                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (startAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + startVal.ToString().Replace(',', '.') + " AND " + goalVal.ToString().Replace(',', '.') + ")";
-                }
-                else
-                {
-                    query += (goalAr - 1.0f).ToString().Replace(',', '.') + " AND " + (startAr + 1.0f).ToString().Replace(',', '.') + ") AND (mean_valence BETWEEN " + (goalVal - 1.0f).ToString().Replace(',', '.') + " AND " + (startVal + 1.0f).ToString().Replace(',', '.') + ")";
-                }
-            }
+            float midStartGoalAr = (startAr + goalAr) / 2;
+            float midStartGoalVal = (startVal + goalVal) / 2;
+            float sumMids = midStartGoalAr + midStartGoalVal;
 
-            query += " AND (genre IN (";
+            string query = "SELECT song_id FROM db WHERE (genre IN (";
             bool first = true;
-            foreach(string s in prefGenres)
+            foreach (string s in prefGenres)
             {
                 if (first)
                 {
@@ -112,8 +69,7 @@ namespace TestAudioForm
                     query += ", " + "\"" + s + "\"";
                 }
             }
-            query += "));";
-
+            query += ")) ORDER BY (abs(mean_arousal + mean_valence - " + sumMids.ToString().Replace(',','.') + ")) LIMIT 5;";
             dbConnection.Open();
             sql = new SQLiteCommand(query, dbConnection);
             SQLiteDataReader sqlr = sql.ExecuteReader();
