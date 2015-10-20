@@ -19,7 +19,7 @@ namespace TestAudioForm
         public Database()
         {
             dbConnection = new SQLiteConnection("Data Source=db.sqlite;Version=3;");
-            CreateDB();
+            CreateDBs();
         }
 
         public List<int> CreatePlaylist(char curEmo, char goalEmo, List<string> prefGenres)
