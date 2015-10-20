@@ -60,7 +60,7 @@ namespace TestAudioForm
                 wMaxY = yMid + yStep;
             }
 
-            return new EmotionVector((wMinX + wMaxX) /2, (wMinY - wMaxY) / 2);
+            return new EmotionVector((wMinX + wMaxX) / 2, (wMinY + wMaxY) / 2);
         }
 
         private EmotionAnalysis NormalizeAnalysis(EmotionAnalysis analysis)
