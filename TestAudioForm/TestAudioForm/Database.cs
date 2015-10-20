@@ -148,7 +148,7 @@ namespace TestAudioForm
                     }
                     break;
             }
-            string query = "SELECT static_annotations.song_id FROM static_annotations INNER JOIN songs_info ON static_annotations.song_id=songs_info.song_id WHERE (mean_arousal BETWEEN ";
+            string query = "SELECT song_id FROM db WHERE (mean_arousal BETWEEN ";
             if (startAr > goalAr)
             {
                 if (startVal > goalVal)
@@ -195,7 +195,7 @@ namespace TestAudioForm
                 }
             }
 
-            query += " AND (songs_info.Genre IN (";
+            query += " AND (genre IN (";
             bool first = true;
             foreach(string s in prefGenres)
             {
@@ -228,42 +228,40 @@ namespace TestAudioForm
                 return;
 
             SQLiteConnection.CreateFile("db.sqlite");
-            CreateDB("../../../Music database/Annotations/static_annotations.csv", "static_annotations", "real");
-            CreateDB("../../../Music database/Annotations/songs_info.csv", "songs_info", "text");
+            CreateDB();
         }
 
-        private void CreateDB(string path, string name, string datatype)
+        public void CreateDB()
         {
             dbConnection.Open();
-            string query = "CREATE TABLE  "+ name +" (";
-            reader = new StreamReader(File.OpenRead(path));
+            string query = "CREATE TABLE db (";
+            reader = new StreamReader(File.OpenRead("../../../Music database/Annotations/db.csv"));
             var line = reader.ReadLine();
             var values = line.Replace("\t", "").Split(';');
-
             for (int i = 0; i < values.Length; i++)
             {
                 if (i == 0)
-                    query += values[i] + " integer, ";
+                    query += values[i] + " INTEGER ";
                 else
-                    query += values[i] + " " + datatype + ", ";
+                    query +=", " + values[i] + " REAL ";
             }
 
-            query += "PRIMARY KEY (song_id) );";
+            query += ", PRIMARY KEY (song_id) );";
             sql = new SQLiteCommand(query, dbConnection);
             sql.ExecuteNonQuery();
 
             while (!reader.EndOfStream)
             {
-                query = "INSERT INTO " + name + " VALUES (";
+                query = "INSERT INTO db VALUES (";
                 line = reader.ReadLine();
-                values = line.Replace("\t","").Split(';');
+                values = line.Replace("\t", "").Replace(',', '.').Split(';');
                 for (int i = 0; i < values.Length; i++)
                 {
                     if (i == 0)
                         query += values[i];
                     else
                         query += ", " + values[i];
-                    
+
                 }
                 query += ");";
                 sql = new SQLiteCommand(query, dbConnection);
@@ -271,6 +269,7 @@ namespace TestAudioForm
             }
 
             dbConnection.Close();
+
         }
     }
 }
