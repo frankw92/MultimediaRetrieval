@@ -22,132 +22,35 @@ namespace TestAudioForm
             CreateDBs();
         }
 
-        public List<int> CreatePlaylist(char curEmo, char goalEmo, List<string> prefGenres)
+        public List<int> CreatePlaylist(EmotionVector curEmo, char goalEmo, List<string> prefGenres)
         {
             float startVal, startAr, goalVal, goalAr;
-            float meanVal = 5.0f, meanAr = 4.8f;
+
+            EmotionVector goalEmotion;
             switch (goalEmo)
             {
                 case 'H':
-                    goalAr = 8.4f;
-                    goalVal = 8.1f;
-                    switch(curEmo)
-                    {
-                        case 'H':
-                            startVal = 6.55f;
-                            startAr = 6.6f;
-                            break;
-                        case 'A':
-                            startVal = meanVal;
-                            startAr = 6.6f;
-                            break;
-                        case 'F':
-                            startVal = 6.55f;
-                            startAr = meanAr;
-                            break;
-                        default:
-                            startVal = meanVal;
-                            startAr = meanAr;
-                            break;
-                    }
+                    goalEmotion = GlobalVariables.Happy;
                     break;
                 case 'A':
-                    goalAr = 8.4f;
-                    goalVal = 1.6f;
-                    switch (curEmo)
-                    {
-                        case 'H':
-                            startVal = meanVal;
-                            startAr = 6.6f;
-                            break;
-                        case 'A':
-                            startVal = 3.3f;
-                            startAr = 6.6f;
-                            break;
-                        case 'S':
-                            startVal = 3.3f;
-                            startAr = meanAr;
-                            break;
-                        default:
-                            startVal = meanVal;
-                            startAr = meanAr;
-                            break;
-                    }
+                    goalEmotion = GlobalVariables.Anger;
                     break;
                 case 'S':
-                    goalAr = 1.6f;
-                    goalVal = 1.6f;
-                    switch (curEmo)
-                    {
-                        case 'A':
-                            startVal = 3.3f;
-                            startAr = meanAr;
-                            break;
-                        case 'S':
-                            startVal = 3.3f;
-                            startAr = 3.2f;
-                            break;
-                        case 'F':
-                            startVal = meanVal;
-                            startAr = 3.2f;
-                            break;
-                        default:
-                            startVal = meanVal;
-                            startAr = meanAr;
-                            break;
-                    }
+                    goalEmotion = GlobalVariables.Sad;
                     break;
                 case 'F':
-                    goalAr = 1.6f;
-                    goalVal = 8.1f;
-                    switch (curEmo)
-                    {
-                        case 'H':
-                            startVal = 6.55f;
-                            startAr = meanAr;
-                            break;
-                        case 'S':
-                            startVal = meanVal;
-                            startAr = 3.2f;
-                            break;
-                        case 'F':
-                            startVal = 6.55f;
-                            startAr = 3.2f;
-                            break;
-                        default:
-                            startVal = meanVal;
-                            startAr = meanAr;
-                            break;
-                    }
+                    goalEmotion = GlobalVariables.Fear;
                     break;
                 default:
-                    goalAr = meanAr;
-                    goalVal = meanVal;
-                    switch (curEmo)
-                    {
-                        case 'H':
-                            startVal = 6.55f;
-                            startAr = 6.6f;
-                            break;
-                        case 'A':
-                            startVal = 3.3f;
-                            startAr = 6.6f;
-                            break;
-                        case 'S':
-                            startVal = 3.3f;
-                            startAr = 3.2f;
-                            break;
-                        case 'F':
-                            startVal = 6.55f;
-                            startAr = 3.2f;
-                            break;
-                        default:
-                            startVal = meanVal;
-                            startAr = meanAr;
-                            break;
-                    }
+                    goalEmotion = GlobalVariables.Neutral;
                     break;
             }
+
+            startAr = (float)curEmo.Arousal;
+            startVal = (float)curEmo.Valence;
+            goalAr = (float)goalEmotion.Arousal;
+            goalVal = (float)goalEmotion.Valence;
+
             string query = "SELECT song_id FROM db WHERE (mean_arousal BETWEEN ";
             if (startAr > goalAr)
             {

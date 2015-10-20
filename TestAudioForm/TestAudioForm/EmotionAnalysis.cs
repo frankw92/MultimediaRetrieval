@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestAudioForm
 {
-    class EmotionAnalysis
+    public class EmotionAnalysis
     {
         public double Happy, Sad, Anger, Fear, Neutral;
         public char Emotion;

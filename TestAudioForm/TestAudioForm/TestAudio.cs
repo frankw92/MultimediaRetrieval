@@ -137,7 +137,7 @@ namespace TestAudioForm
             stopRecordingButton.Enabled = false;
             startRecordingButton.Enabled = true;
 
-            this.musicPlayer = new MusicPlayer(db.CreatePlaylist(currentAnalysis.Emotion, settings.GoalEmotion, settings.GenrePreferences));
+            this.musicPlayer = new MusicPlayer(db.CreatePlaylist(ec.CalculateVector(currentAnalysis), settings.GoalEmotion, settings.GenrePreferences));
         }
 
         private void TestAudio_FormClosing(object sender, FormClosingEventArgs e)
@@ -162,7 +162,7 @@ namespace TestAudioForm
             }
             catch
             {
-                this.musicPlayer = new MusicPlayer(db.CreatePlaylist(currentAnalysis.Emotion, settings.GoalEmotion, settings.GenrePreferences));
+                this.musicPlayer = new MusicPlayer(db.CreatePlaylist(ec.CalculateVector(currentAnalysis), settings.GoalEmotion, settings.GenrePreferences));
                 songID = this.musicPlayer.PlaySong();
             }
             

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestAudioForm
 {
-    class EmotionVector
+    public class EmotionVector
     {
         public double Arousal;
         public double Valence;
