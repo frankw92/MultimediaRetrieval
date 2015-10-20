@@ -134,6 +134,8 @@ namespace TestAudioForm
 
             stopRecordingButton.Enabled = false;
             startRecordingButton.Enabled = true;
+
+            this.musicPlayer = new MusicPlayer(db.CreatePlaylist(currentAnalysis.Emotion, settings.GoalEmotion, settings.GenrePreferences));
         }
 
         private void TestAudio_FormClosing(object sender, FormClosingEventArgs e)
@@ -171,11 +173,6 @@ namespace TestAudioForm
             this.musicPlayer.Paused = this.paused;
             this.musicPlayer.PausePlaySong();
             this.paused = this.musicPlayer.Paused;
-        }
-
-        private void playlistButton_Click(object sender, EventArgs e)
-        {
-            this.musicPlayer = new MusicPlayer(db.CreatePlaylist('A', settings.GoalEmotion, settings.GenrePreferences));
         }
     }
 }
