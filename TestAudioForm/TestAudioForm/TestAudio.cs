@@ -35,6 +35,7 @@ namespace TestAudioForm
         private bool paused = false;
 
         private EmotionAnalysis currentAnalysis;
+        private EmotionVector currentVector;
 
         public TestAudio(UserSettings settings)
         {
@@ -124,6 +125,7 @@ namespace TestAudioForm
         private void stopRecordingButton_Click(object sender, EventArgs e)
         {
             currentAnalysis = dbm.SearchDatabaseForEmotion(windows);
+            currentVector = ec.CalculateVector(currentAnalysis);
 
             try
             {
@@ -137,7 +139,7 @@ namespace TestAudioForm
             stopRecordingButton.Enabled = false;
             startRecordingButton.Enabled = true;
 
-            this.musicPlayer = new MusicPlayer(db.CreatePlaylist(ec.CalculateVector(currentAnalysis), settings.GoalEmotion, settings.GenrePreferences));
+            this.musicPlayer = new MusicPlayer(db.CreatePlaylist(currentVector, settings.GoalEmotion, settings.GenrePreferences));
         }
 
         private void TestAudio_FormClosing(object sender, FormClosingEventArgs e)
@@ -162,12 +164,12 @@ namespace TestAudioForm
             }
             catch
             {
-                this.musicPlayer = new MusicPlayer(db.CreatePlaylist(ec.CalculateVector(currentAnalysis), settings.GoalEmotion, settings.GenrePreferences));
+                this.musicPlayer = new MusicPlayer(db.CreatePlaylist(currentVector, settings.GoalEmotion, settings.GenrePreferences));
                 songID = this.musicPlayer.PlaySong();
             }
-            
+
             // Output current emotion and song played
-            om.OutputIteration(songID, currentAnalysis);
+            om.OutputIteration(songID, currentAnalysis, currentVector);
         }
 
         private void pauseButton_Click(object sender, EventArgs e)
